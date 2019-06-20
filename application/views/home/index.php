@@ -5,7 +5,7 @@
     </div>
     </div>
     
-    <?php for($i=1;$i<16;$i++){ ?>
+    <?php for($i=1;$i<11;$i++){ ?>
         <div class="col-md-2 text-center" style="margin-bottom:5px;">
             <a href="<?=base_url()?>home/login/<?=$i?>">
                 <div class="card">
