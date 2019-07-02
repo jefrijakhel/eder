@@ -11,13 +11,12 @@
                 <h3>Login</h3>
             </div>
             <div class="col-md-12">
-                <form method="post" action="<?=base_url()?>home/auth">
+                <form method="post" action="<?=base_url()?>employee/auth">
                     <div class="form-group">
                         <input type="name" name="username" class="form-control" id="username" placeholder="Username">
                     </div>
                     <div class="form-group">
                         <input type="password" name="password" class="form-control" id="password" placeholder="Password">
-                        <small id="passwordHelp" class="form-text text-muted text-center">cek username dan password pada nomor meja kamu</small>
                     </div>
                     <button type="submit" name="loginmeja" class="btn btn-primary col-md-12">Login</button>
                 </form>

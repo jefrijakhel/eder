@@ -53,5 +53,24 @@ $route['default_controller'] = 'home';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-$route['home/login/(:any)'] = 'home/login/$1';
+$route['home/main'] = 'home/main';
+$route['home/login'] = 'home/login';
 $route['home/auth'] = 'home/login_proccess';
+$route['home/cart'] = 'home/cart';
+$route['home/check'] = 'home/check';
+$route['home/logout'] = 'home/logout';
+
+$route['order'] = 'home/order';
+$route['update'] = 'home/update';
+$route['checkout'] = 'home/checkout';
+$route['status'] = 'home/status';
+$route['getTransaction'] = 'dapur/getTransaksi';
+$route['proses-order'] = 'dapur/proses';
+
+$route['employee'] = 'login';
+$route['employee/auth'] = 'login/auth';
+$route['employee/logout'] = 'login/logout';
+
+$route['employee/kasir'] = 'kasir';
+$route['employee/dapur'] = 'dapur';
+$route['employee/manager'] = 'manager';
