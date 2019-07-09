@@ -50,7 +50,53 @@
         xhr.open('GET', 'http://localhost/project/eder/getTransaction/', true);
         xhr.send();
       }
-      setInterval(function() { view() }, 1000);
+
+      $(document).ready(function(){
+        if($('#listpesanan').length){
+          setInterval(function() { view() }, 1000);
+        }else{
+        }
+      });
+
+      function cekMeja() {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                document.getElementById('mejakasir').innerHTML = xhr.responseText;
+            }
+        }
+        xhr.open('GET', 'http://localhost/project/eder/getMeja/', true);
+        xhr.send();
+      }
+      $(document).ready(function(){
+        if($('#mejakasir').length){
+          setInterval(function() { cekMeja() }, 1000);
+          console.log('meja exist');
+        }else{
+          console.log('meja not exist');
+        }
+      });
+
+    </script>
+    <script>
+    $("#printbtn").click(function(){
+      var divToPrint=document.getElementById('printarea');
+      var newWin=window.open('','Print-Window');
+
+      newWin.document.open();
+
+      newWin.document.write(`<html>
+      <head>
+      <link href="http://localhost/project/eder/assets/style.css" rel="stylesheet" type="text/css">
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      </head>
+      <body onload="window.print()" style="padding-top:50px;">`+divToPrint.innerHTML+`</body></html>`);
+
+      newWin.document.close();
+
+      setTimeout(function(){newWin.close();},10);
+    })
+
     </script>
   </body>
 </html>

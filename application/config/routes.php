@@ -58,6 +58,8 @@ $route['home/login'] = 'home/login';
 $route['home/auth'] = 'home/login_proccess';
 $route['home/cart'] = 'home/cart';
 $route['home/check'] = 'home/check';
+$route['home/pay'] = 'home/pay';
+$route['home/success'] = 'home/success';
 $route['home/logout'] = 'home/logout';
 
 $route['order'] = 'home/order';
@@ -66,6 +68,7 @@ $route['checkout'] = 'home/checkout';
 $route['status'] = 'home/status';
 $route['getTransaction'] = 'dapur/getTransaksi';
 $route['proses-order'] = 'dapur/proses';
+$route['getMeja'] = 'kasir/getMeja';
 
 $route['employee'] = 'login';
 $route['employee/auth'] = 'login/auth';
@@ -74,3 +77,6 @@ $route['employee/logout'] = 'login/logout';
 $route['employee/kasir'] = 'kasir';
 $route['employee/dapur'] = 'dapur';
 $route['employee/manager'] = 'manager';
+
+$route['kasir/open'] = 'kasir/open';
+$route['close-table'] = 'kasir/close';

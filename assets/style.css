@@ -1,0 +1,47 @@
+a{
+    text-decoration:none !important;
+}
+.crimson
+{
+  background-color:crimson;
+}
+.twhite
+{
+  color:#fff;
+}
+.invoice-list-group
+{
+  text-decoration:none;
+  list-style:none;
+  padding:0;
+  margin:0;
+  float:left;
+  width:100%;
+  font-size:12px;
+}
+.invoice-list-group li
+{
+  display:block;
+  margin:0;
+  padding:0;
+}
+.invoice-list-group li ul
+{
+  padding:0;
+  margin:0;
+  display:block;
+}
+.invoice-list-group li ul li
+{
+  display: inline-block;
+  text-align:left;
+}
+.invoice-list-group li ul li:first-child
+{
+  width:22%;
+}
+.invoice-list-group li ul li:last-child
+{
+  width:75%;
+  word-wrap: break-word;
+}

@@ -10,12 +10,12 @@
     <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <link rel="stylesheet" href="<?=base_url()?>assets/style.css">
+    <!-- <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
+    <link rel="stylesheet" href="https://printjs-4de6.kxcdn.com/print.min.css"> -->
+
     <title><?=$title?></title>
-    <style>
-        a{
-            text-decoration:none !important;
-        }
-    </style>
+    
   </head>
   <body>
       <div class="container">

@@ -8,7 +8,7 @@ class Home extends CI_Controller {
         parent::__construct();
         $this->load->helper('url');
         $this->load->library('session');
-        $this->load->model(array('Menu','Bahanbaku','Cart','Komposisi','Meja','Menu','Transaksi'));
+        $this->load->model(array('Menu','Bahanbaku','Cart','Komposisi','Meja','Menu','Transaksi','Payment'));
         
     }
 	public function index()
@@ -18,6 +18,16 @@ class Home extends CI_Controller {
         $data['content']=$this->load->view('home/index',$data, true);
         $data['footer']=$this->load->view('templates/home/footer',$data, true);
 		$this->load->view('templates/home/index',$data);
+    }
+
+    function RandomString()
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $randstring = '';
+        for ($i = 0; $i < 30; $i++) {
+            $randstring .= $characters[rand(0, strlen($characters))];
+        }
+        return $randstring;
     }
     
     public function login()
@@ -45,7 +55,35 @@ class Home extends CI_Controller {
                 $meja = Meja::where('username',$uname)->where('password',$pwd)->get();
                 $this->session->set_userdata('meja',$meja[0]['no_meja']);
                 $this->session->set_userdata('loggedin',TRUE);
-                redirect(base_url().'home/login');
+                if($meja[0]['active_transaction']!=''||$meja[0]['active_transaction']!=NULL){
+                    $this->session->set_userdata('id_transaksi',$meja[0]['active_transaction']);
+                }else{
+                    $id_transaksi = $this->RandomString();
+                    Meja::where('username',$uname)->where('password',$pwd)->update(['active_transaction'=> $id_transaksi]);
+                    $this->session->set_userdata('id_transaksi',$id_transaksi);
+                }
+                if($meja[0]['nama_customer']!=''||$meja[0]['nama_customer']!=NULL){
+                    if($meja[0]['email']!='' || $meja[0]['email']!=NULL){
+                        $email = $meja[0]['email'];
+                    }else{
+                        $email = '-';
+                    }
+                    if($meja[0]['no_hp']!='' || $meja[0]['no_hp']!=NULL){
+                        $no_hp = $meja[0]['no_hp'];
+                    }else{
+                        $no_hp = '-';
+                    }
+                    $dataMeja = array(
+                        'no_meja'          => $meja[0]['no_meja'],
+                        'nama_customer' => $meja[0]['nama_customer'],
+                        'email'         => $email,
+                        'no_hp'         => $no_hp
+                    );
+                    $this->session->set_userdata('dataMeja',$dataMeja);
+                    redirect(base_url().'home/main');
+                }else{
+                    redirect(base_url().'home/login');
+                }
             }else{
                 echo '<script>alert("username atau password salah, silahkan periksa kembali"); window.location = "'.base_url().'";</script>';
             }
@@ -80,6 +118,7 @@ class Home extends CI_Controller {
 
     public function menu()
     {
+        if($this->session->userdata('loggedin')==TRUE){
         $sessMeja               = $this->session->userdata('dataMeja');
         $data['meja']           = $sessMeja['no_meja'];
         $data['nama_pelanggan'] = $sessMeja['nama_customer'];
@@ -93,10 +132,14 @@ class Home extends CI_Controller {
         $data['content']        = $this->load->view('home/menu',$data, true);
         $data['footer']         = $this->load->view('templates/home/footer',$data, true);
 
-		$this->load->view('templates/home/index',$data);
+        $this->load->view('templates/home/index',$data);
+        }else{
+            echo '<script>alert("login terlebih dahulu"); window.location = "'.base_url().'";</script>';
+        }
     }
     public function main()
     {
+        if($this->session->userdata('loggedin')==TRUE){
         $sessMeja               = $this->session->userdata('dataMeja');
         $data['meja']           = $sessMeja['no_meja'];
         $data['nama_pelanggan'] = $sessMeja['nama_customer'];
@@ -108,10 +151,79 @@ class Home extends CI_Controller {
         $data['content']        = $this->load->view('home/main',$data, true);
         $data['footer']         = $this->load->view('templates/home/footer',$data, true);
 
+        $this->load->view('templates/home/index',$data);
+        }else{
+            echo '<script>alert("login terlebih dahulu"); window.location = "'.base_url().'";</script>';
+        }
+    }
+    public function pay()
+    {
+        if($this->session->userdata('loggedin')==TRUE){
+        if(isset($_GET['method'])){
+            $method = $_GET['method'];
+            $sessMeja = $this->session->userdata('dataMeja');
+            if($method == 'gopay' || $method == 'ovo' || $method == 'cash'){
+                $transaksi = Transaksi::where('meja',$this->session->userdata('meja'))->where('transaksi_fk',$this->session->userdata('id_transaksi'))->whereNotIn('status',['close'])->get();
+                $meja = Meja::where('no_meja',$this->session->userdata('meja'))->get();
+                $total = 0;
+                foreach($transaksi as $key=>$value){
+                    $menu = Menu::where('id_menu',$value->id_menu)->get();
+                    $subtotal = $menu[0]['harga_menu']*$value->qty;
+                    $total += $subtotal;
+                }
+                // var_dump('total : '.$total);return false;
+                $data_pembayaran = array(
+                    'total' => $total,
+                    'meja' => $sessMeja['no_meja'],
+                    'id_transaksi' => $this->session->userdata('id_transaksi'),
+                    'metode' => $method,
+                    'nama' => $sessMeja['nama_customer']
+                );
+                Meja::where('no_meja',$this->session->userdata('meja'))->update(['status'=> 1]);
+                Transaksi::where('transaksi_fk',$this->session->userdata('id_transaksi'))->update(['status'=> 'close']);
+                $postPay = Payment::create($data_pembayaran);
+                if($postPay){
+                    redirect(base_url().'home/logout');
+                }else{
+                    echo '<script>alert("error"); window.location = "'.base_url().'home/menu";</script>';
+                }
+                
+            }else{
+                echo '<script>alert("metode pembayaran tidak tersedia"); window.location = "'.base_url().'home/pay";</script>';
+            }
+        }else{
+        $sessMeja               = $this->session->userdata('dataMeja');
+        $data['meja']           = $sessMeja['no_meja'];
+        $data['nama_pelanggan'] = $sessMeja['nama_customer'];
+        $data['email']          = $sessMeja['email'];
+        $data['no_hp']          = $sessMeja['no_hp'];
+        $data['title']          = 'Welcome';
+        $data['countcart']      = Cart::where('meja',$this->session->userdata('meja'))->count(); 
+		$data['header']         = $this->load->view('templates/home/header',$data, true);
+        $data['content']        = $this->load->view('home/pay',$data, true);
+        $data['footer']         = $this->load->view('templates/home/footer',$data, true);
+
+        $this->load->view('templates/home/index',$data);
+        }
+        }else{
+            echo '<script>alert("login terlebih dahulu"); window.location = "'.base_url().'";</script>';
+        }
+    }
+    public function success()
+    {
+        
+        $data['title']          = 'Welcome';
+        $data['countcart']      = Cart::where('meja',$this->session->userdata('meja'))->count();
+        $data['cart']           = Cart::where('meja',$this->session->userdata('meja'))->get();
+		$data['header']         = $this->load->view('templates/home/header',$data, true);
+        $data['content']        = $this->load->view('home/success',$data, true);
+        $data['footer']         = $this->load->view('templates/home/footer',$data, true);
+
 		$this->load->view('templates/home/index',$data);
     }
     public function cart()
     {
+        if($this->session->userdata('loggedin')==TRUE){
         $sessMeja               = $this->session->userdata('dataMeja');
         $data['meja']           = $sessMeja['no_meja'];
         $data['nama_pelanggan'] = $sessMeja['nama_customer'];
@@ -124,7 +236,10 @@ class Home extends CI_Controller {
         $data['content']        = $this->load->view('home/cart',$data, true);
         $data['footer']         = $this->load->view('templates/home/footer',$data, true);
 
-		$this->load->view('templates/home/index',$data);
+        $this->load->view('templates/home/index',$data);
+        }else{
+            echo '<script>alert("login terlebih dahulu"); window.location = "'.base_url().'";</script>';
+        }
     }
 
 
@@ -213,10 +328,12 @@ class Home extends CI_Controller {
         $dataCart   = Cart::where('meja', $this->session->userdata('meja'))
                           ->get();
         $sessMeja   = $this->session->userdata('dataMeja');
+        $id_transaksi = $this->session->userdata('id_transaksi');
         foreach($dataCart as $key=>$value){
             $checkout = array(
                 'meja'      => $this->session->userdata('meja'),
                 'id_menu'   => $value->id_menu,
+                'transaksi_fk' => $id_transaksi,
                 'qty'       => $value->qty,
                 'notes'     => $value->notes,
                 'nama_customer' => $sessMeja['nama_customer'],
@@ -233,6 +350,7 @@ class Home extends CI_Controller {
 
     public function check()
     {
+        if($this->session->userdata('loggedin')==TRUE){
         $sessMeja               = $this->session->userdata('dataMeja');
         $data['meja']           = $sessMeja['no_meja'];
         $data['nama_pelanggan'] = $sessMeja['nama_customer'];
@@ -240,16 +358,21 @@ class Home extends CI_Controller {
         $data['no_hp']          = $sessMeja['no_hp'];
         $data['title']          = 'Welcome';
         $data['countcart']      = Cart::where('meja',$this->session->userdata('meja'))->count();
-        $data['cart']           = Transaksi::where('meja',$this->session->userdata('meja'))->get();
+        $data['cart']           = Transaksi::where('meja',$this->session->userdata('meja'))->whereNotIn('status',['close'])->get();
 		$data['header']         = $this->load->view('templates/home/header',$data, true);
         $data['content']        = $this->load->view('home/check',$data, true);
         $data['footer']         = $this->load->view('templates/home/footer',$data, true);
 
-		$this->load->view('templates/home/index',$data);
+        $this->load->view('templates/home/index',$data);
+        }else{
+            echo '<script>alert("login terlebih dahulu"); window.location = "'.base_url().'";</script>';
+        }
     }
 
     public function status()
     {
+        
+        if($this->session->userdata('loggedin')==TRUE){
         if(isset($_POST['id_transaksi']))
         {
             
@@ -265,12 +388,15 @@ class Home extends CI_Controller {
         }else{
             redirect(base_url().'home/check');
         }
+        }else{
+            echo '<script>alert("login terlebih dahulu"); window.location = "'.base_url().'";</script>';
+        }
         
     }
 
     public function logout()
     {
         $this->session->sess_destroy();
-        redirect(base_url());
+        redirect(base_url().'home/success');
     }
 }
