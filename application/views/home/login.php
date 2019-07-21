@@ -1,8 +1,6 @@
 <div class="row">
-    <div class="card col-md-12 text-center" style="margin-bottom:10px;margin-top:10px;">
-    <div class="card-body">
+    <div class="col-md-12 text-center" style="margin-bottom:10px;margin-top:10px;">
         <h1>Meja <?=$meja?></h1>
-    </div>
     </div>
     
     <div class="col-md-4 col-md-offset" style="float: none; margin: 0 auto;">

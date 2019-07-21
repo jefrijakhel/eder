@@ -9,7 +9,11 @@ class Kasir extends CI_Controller {
         $this->load->helper('url');
         $this->load->library('session');
         $this->load->model(array('User','Menu','Bahanbaku','Cart','Komposisi','Meja','Menu','Transaksi','Payment'));
-        
+        if(!isset($_SESSION['emloggedin'])){
+            echo '<script>alert("Authentication required"); window.location = "'.base_url().'employee";</script>';
+        }else if($this->session->userdata('employee')['privillege']!='kasir'){
+            echo '<script>alert("Authentication required"); window.location = "'.base_url().'employee";</script>';
+        }
     }
     public function index()
 	{
@@ -25,11 +29,16 @@ class Kasir extends CI_Controller {
         $return = '';
         $meja = Meja::get(['no_meja','status','nama_customer','email','no_hp']);
         foreach($meja as $key=>$value):
+            $class='';
             if($value->status == 1){
                 $class= 'crimson twhite';
-            }else{
-                $class= '';
             }
+
+            if($value->status == 0 && $value->nama_customer!=''){
+                $class= 'cornflowerblue twhite';
+            }
+            
+
             if($value->nama_customer!='' || $value->nama_customer!=NULL){
                 $nama = $value->nama_customer;
             }else{

@@ -35,12 +35,25 @@
                                 </div>
                                 <div class="col-md-2">
                                     <div class="card-body" style="background:cornflowerblue; border-radius:10px">
-                                        <form method="post" action="<?=base_url()?>status">
+                                        <!-- <form method="post" action="<?=base_url()?>status">
                                             <center>
                                                 <input type="hidden" name="id_transaksi" class="form-control" value="<?=$value->id_transaksi?>">
                                                 <button type="submit" class="form-control btn btn-info" name="addcart" style="">Status</button>
                                             </center>
-                                        </form>
+                                        </form> -->
+                                        <?php
+                                            if($value->estimated_time != NULL){
+                                        ?>
+                                        <div id="demo" style="font-size:16px; font-weight:bold" class="text-center"></div>
+                                        <input type="hidden" value="<?=$value->estimated_time?>" id="countdown">
+                                        <?php }else{ ?>
+                                        <div style="font-size:16px; font-weight:bold" class="text-center">
+                                            Pesanan Belum diproses
+                                        </div>
+                                        <div style="font-size:16px; font-weight:bold" class="text-center">
+                                            status: <?=$value->status?>
+                                        </div>
+                                        <?php } ?>
                                     </div>
                                 </div>
                             </div>

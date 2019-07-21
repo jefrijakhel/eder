@@ -66,8 +66,10 @@ $route['order'] = 'home/order';
 $route['update'] = 'home/update';
 $route['checkout'] = 'home/checkout';
 $route['status'] = 'home/status';
-$route['getTransaction'] = 'dapur/getTransaksi';
+$route['getTransactionMakanan'] = 'dapur/getTransaksiMakanan';
+$route['getTransactionMinuman'] = 'dapur/getTransaksiMinuman';
 $route['proses-order'] = 'dapur/proses';
+$route['close-order/(:any)'] = 'dapur/close/$1';
 $route['getMeja'] = 'kasir/getMeja';
 
 $route['employee'] = 'login';
@@ -78,5 +80,25 @@ $route['employee/kasir'] = 'kasir';
 $route['employee/dapur'] = 'dapur';
 $route['employee/manager'] = 'manager';
 
+$route['dapur/list-pesanan'] = 'dapur/listpesanan';
+$route['dapur/belanja'] = 'dapur/belanja';
+$route['dapur/add-belanja'] = 'dapur/addbelanja';
+$route['dapur/detail-belanja/(:any)'] = 'dapur/detailbelanja/$1';
 $route['kasir/open'] = 'kasir/open';
 $route['close-table'] = 'kasir/close';
+
+$route['manager/dashboard'] = 'manager/dashboard';
+$route['manager/gaji'] = 'manager/gaji';
+$route['manager/gaji/detail/(:any)'] = 'manager/detailgaji/$1';
+$route['manager/list-belanja'] = 'manager/listbelanja';
+$route['manager/list-belanja/detail/(:any)'] = 'manager/detailbelanja/$1';
+$route['manager/tambah-penggajian'] = 'manager/tambahgaji';
+
+$route['manager/post-gaji'] = 'manager/postgaji';
+$route['dapur/post-belanja'] = 'dapur/postbelanja';
+
+$route['dapur/update-harga'] = 'dapur/updateharga';
+
+$route['manager/approvebelanja/(:any)'] = 'manager/approve/$1';
+
+$route['submit-feedback'] = 'home/submitfeedback';

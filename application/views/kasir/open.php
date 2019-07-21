@@ -12,7 +12,7 @@
                     <ul>
                         <li>ID</li>
                         <li>:</li>
-                        <li>&nbsp;<?=$meja[0]['active_transaction']?>oooooooooooooo</li>
+                        <li>&nbsp;<?=$meja[0]['active_transaction']?></li>
                     </ul>
                 </li>
                 <li>
@@ -56,17 +56,30 @@
                                 ->get();
             $total = 0;
             $payment = Payment::where('id_transaksi',$meja[0]['active_transaction'])->get();
+            if(count($payment)>0){
+            if($payment[0]['metode'] == ''){
+                $payments = 'Pelanggan belum menentukann metode pembayaran';
+            }else{
+                $payments = $payment[0]['metode'];
+            }}else{
+                $payments = 'Pelanggan belum menentukan metode pembayaran';
+            }
             foreach($orderan as $key=>$value):
                 $menu = Menu::where('id_menu',$value->id_menu)->get();
                 $subtotal = $value->qty*$menu[0]['harga_menu'];
                 $total += $subtotal;
+                
         ?>
             <li class="list-group-item text-left" style="border:none;padding-top:0;padding-bottom:0;font-weight:bold;font-size:12px">x<?=$value->qty?> <?=$menu[0]['nama_menu']?><span class="float-right">Rp. <?=number_format($subtotal,0)?></span></li>
         <?php 
         endforeach;
         ?>
         <li class="list-group-item text-left" style="margin-top:10px;padding-top:5px;padding-bottom:5px;">Total<span class="float-right">Rp. <?=number_format($total,0)?></span></li>
-        <li class="list-group-item text-left" style="margin-top:10px;padding-top:5px;padding-bottom:5px;">Metode Pembayaran<span class="float-right text-uppercase font-weight-bold"><?=$payment[0]['metode']?></span></li>
+        <li class="list-group-item text-left" style="margin-top:10px;padding-top:5px;padding-bottom:5px;">Metode Pembayaran<span class="float-right text-uppercase font-weight-bold">
+        
+        <?=$payments?>
+        
+        </span></li>
     </ul>
     </div>
     </center>

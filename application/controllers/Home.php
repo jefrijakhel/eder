@@ -8,7 +8,7 @@ class Home extends CI_Controller {
         parent::__construct();
         $this->load->helper('url');
         $this->load->library('session');
-        $this->load->model(array('Menu','Bahanbaku','Cart','Komposisi','Meja','Menu','Transaksi','Payment'));
+        $this->load->model(array('Menu','Bahanbaku','Cart','Komposisi','Meja','Menu','Transaksi','Payment','Feedback'));
         
     }
 	public function index()
@@ -220,6 +220,36 @@ class Home extends CI_Controller {
         $data['footer']         = $this->load->view('templates/home/footer',$data, true);
 
 		$this->load->view('templates/home/index',$data);
+    }
+
+    public function submitfeedback()
+    {
+        $q = [
+            'Bagaimana makanan di Kafe Elther?',
+            'Bagaimana suasana di Kafe Elther?',
+            'Bagaimana pelayanan di Kafe Elther?'
+            ];
+
+        
+        $feedback = array();
+        for($i=0;$i<3;$i++){
+            $j = 1+$i;
+            array_push($feedback,
+                array(
+                    'id_pertanyaan'     => $i,
+                    'pertanyaan'        => $q[$i],
+                    'nilai'             => $this->input->post('q'.$j)
+                )
+            );
+        }
+        
+        $dp = Feedback::insert($feedback);
+        if($dp = true){
+            redirect(base_url());
+        }else{
+            echo '<script>alert("error"); window.location = "'.base_url().'home/success";</script>';
+        }
+
     }
     public function cart()
     {

@@ -13,10 +13,11 @@
     <link rel="stylesheet" href="<?=base_url()?>assets/style.css">
     <!-- <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
     <link rel="stylesheet" href="https://printjs-4de6.kxcdn.com/print.min.css"> -->
-
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+   
     <title><?=$title?></title>
     
   </head>
-  <body>
+  <body style="background-image:url('<?=base_url()?>assets/bg.jpeg')">
       <div class="container">
     

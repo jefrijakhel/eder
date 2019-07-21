@@ -5,6 +5,14 @@ a{
 {
   background-color:crimson;
 }
+.cornflowerblue
+{
+  background-color:cornflowerblue;
+}
+select {
+  font-family: 'Lato', 'Font Awesome 5 Free';
+  font-weight: 900;
+}
 .twhite
 {
   color:#fff;

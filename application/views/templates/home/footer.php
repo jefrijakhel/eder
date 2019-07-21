@@ -2,6 +2,10 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="<?=base_url()?>assets/Chart.bundle.js"></script>
+    <script src="<?=base_url()?>assets/Chart.bundle.min.js"></script>
+    <script src="<?=base_url()?>assets/Chart.js"></script>
+    <script src="<?=base_url()?>assets/Chart.min.js"></script>
 
     <script>
     // Set the date we're counting down to
@@ -33,7 +37,7 @@
       // If the count down is over, write some text 
       if (distance < 0) {
         clearInterval(x);
-        document.getElementById("demo").innerHTML = "Pesanan Siap";
+        document.getElementById("demo").innerHTML = "Pesanan Telah Selesai";
       }
     }, 1000);
     </script>
@@ -44,16 +48,28 @@
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
-                document.getElementById('listpesanan').innerHTML = xhr.responseText;
+                document.getElementById('listpesananmakanan').innerHTML = xhr.responseText;
             }
         }
-        xhr.open('GET', 'http://localhost/project/eder/getTransaction/', true);
+        xhr.open('GET', 'http://localhost/project/eder/getTransactionMakanan/', true);
+        xhr.send();
+      }
+      function view2() {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                document.getElementById('listpesananminuman').innerHTML = xhr.responseText;
+            }
+        }
+        xhr.open('GET', 'http://localhost/project/eder/getTransactionMinuman/', true);
         xhr.send();
       }
 
+
       $(document).ready(function(){
-        if($('#listpesanan').length){
+        if($('#listpesananmakanan').length){
           setInterval(function() { view() }, 1000);
+          setInterval(function() { view2() }, 1000);
         }else{
         }
       });
@@ -97,6 +113,97 @@
       setTimeout(function(){newWin.close();},10);
     })
 
+    </script>
+
+    <script>
+    var ctx = document.getElementById('transaksi').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [<?=$label?>],
+            datasets: [{
+                label: 'Jumlah Penjualan',
+                data: [<?=$dataset?>],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+
+    var ctxMakanan = document.getElementById('topmakanan').getContext('2d');
+    var myChartakanan = new Chart(ctxMakanan, {
+        type: 'bar',
+        data: {
+            labels: [<?=$labelmakanan?>],
+            datasets: [{
+                label: 'Top 10 Makanan',
+                data: [<?=$datasetmakanan?>],
+                backgroundColor: [
+                    'rgba(25, 99, 132, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(25, 99, 132, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+
+    var ctxMinuman = document.getElementById('topminuman').getContext('2d');
+    var myChartMinuman = new Chart(ctxMinuman, {
+        type: 'bar',
+        data: {
+            labels: [<?=$labelminuman?>],
+            datasets: [{
+                label: 'Top 10 Minuman',
+                data: [<?=$datasetminuman?>],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
     </script>
   </body>
 </html>
