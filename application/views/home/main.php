@@ -1,7 +1,7 @@
 <div class="container pt-5">
     <div class="row">
         <div class="col-md-12 text-center">
-            <h1>Welcome <?=$nama_pelanggan?></h1>
+            <h1 class="comic">Welcome <?=$nama_pelanggan?></h1>
         </div><br><br><br><br>
         <div class="col-md-12">
             <center>

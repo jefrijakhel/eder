@@ -205,5 +205,49 @@
         }
     });
     </script>
+
+    <!-- <script type="text/javascript" src="<?=base_url()?>assets/jquery.min.js"></script> -->
+    <script type="text/javascript" src="<?=base_url()?>assets/star-rating.js"></script>
+    <!-- <script type="text/javascript" src="<?=base_url()?>assets/bootstrap.js"></script> -->
+    <script type="text/javascript">
+        $(document).ready(function(){
+            if($('#rating-input').length){
+                var $inp = $('#rating-input');
+                $inp.rating({
+                                min: 0,
+                                max: 5,
+                                step: 1,
+                                size: 'sm',
+                                showClear: false
+                            });
+                $inp.on('rating.change', function () {
+                // alert('Nilai rating : '+$('#rating-input').val());
+                });
+                var $inp2 = $('#rating-input2');
+                $inp2.rating({
+                                min: 0,
+                                max: 5,
+                                step: 1,
+                                size: 'sm',
+                                showClear: false
+                            });
+                $inp2.on('rating.change', function () {
+                // alert('Nilai rating : '+$('#rating-input2').val());
+                });
+                var $inp3 = $('#rating-input3');
+                $inp3.rating({
+                                min: 0,
+                                max: 5,
+                                step: 1,
+                                size: 'sm',
+                                showClear: false
+                            });
+                $inp3.on('rating.change', function () {
+                // alert('Nilai rating : '+$('#rating-input3').val());
+                });
+            }
+        });
+    </script>
+
   </body>
 </html>

@@ -70,10 +70,10 @@ class Dapur extends CI_Controller {
 
     public function getTransaksiMakanan()
     {
-        $transaksi = Transaksi::get();
+        $transaksi = Transaksi::orderBy('created_at','DESC')->get();
         $returntransaksi = '';
         foreach($transaksi as $key=>$value){
-            if($value->status != 'close'){
+            if($value->status != ''){
             $menu = Menu::where('id_menu',$value->id_menu)->get();
             $onclick = "window.location='".base_url()."close-order/".$value->id_transaksi."'";
             $color = 'btn-primary';
@@ -86,12 +86,12 @@ class Dapur extends CI_Controller {
             $returntransaksi .= '<div class="card">';
             $returntransaksi .= '<div class="card-body">';
             $returntransaksi .= '<div class="col-md-8 col-sm-8" style="float:left">';
-            $returntransaksi .= 'nama menu : '.$menu[0]['nama_menu'].' <br> jumlah : ' . $value->qty.' <br> catatan khusus : '. $value->notes.' <br> status : '. $value->status;
+            $returntransaksi .= 'Meja : '.$value->meja.'<br>nama menu : '.$menu[0]['nama_menu'].' <br> jumlah : ' . $value->qty.' <br> catatan khusus : '. $value->notes.' <br> status : '. $value->status;
             $returntransaksi .= '</div>';
             $returntransaksi .= '<div class="col-md-4 col-sm-4" style="float:right">';
             $returntransaksi .= '<form method="post" action="'.base_url().'proses-order">';
             $returntransaksi .= '<input type="hidden" name="id_transaksi" value="'.$value->id_transaksi.'">';
-            $returntransaksi .= '<button type="submit" class="btn btn-primary btn-sm" style="float:right">Proses</button><br><br>';
+            $returntransaksi .= '<button type="submit" class="btn '.$color.' btn-primary btn-sm" style="float:right" '.$dis.'>Proses</button><br><br>';
             $returntransaksi .= '<button type="button" class="btn '.$color.' btn-sm" onclick="'.$onclick.'" style="float:right"'.$dis.'>Close</button>';
             $returntransaksi .= '</form>';
             $returntransaksi .= '</div>';
@@ -105,7 +105,7 @@ class Dapur extends CI_Controller {
 
     public function getTransaksiMinuman()
     {
-        $transaksi = Transaksi::get();
+        $transaksi = Transaksi::orderBy('created_at','DESC')->get();
         $returntransaksi = '';
         foreach($transaksi as $key=>$value){
             if($value->status != 'close'){
@@ -121,12 +121,12 @@ class Dapur extends CI_Controller {
             $returntransaksi .= '<div class="card">';
             $returntransaksi .= '<div class="card-body">';
             $returntransaksi .= '<div class="col-md-8 col-sm-8" style="float:left">';
-            $returntransaksi .= 'nama menu : '.$menu[0]['nama_menu'].' <br> jumlah : ' . $value->qty.' <br> catatan khusus : '. $value->notes.' <br> status : '. $value->status;
+            $returntransaksi .= 'Meja : '.$value->meja.'<br>nama menu : '.$menu[0]['nama_menu'].' <br> jumlah : ' . $value->qty.' <br> catatan khusus : '. $value->notes.' <br> status : '. $value->status;
             $returntransaksi .= '</div>';
             $returntransaksi .= '<div class="col-md-4 col-sm-4" style="float:right">';
             $returntransaksi .= '<form method="post" action="'.base_url().'proses-order">';
             $returntransaksi .= '<input type="hidden" name="id_transaksi" value="'.$value->id_transaksi.'">';
-            $returntransaksi .= '<button type="submit" class="btn btn-primary btn-sm" style="float:right">Proses</button><br><br>';
+            $returntransaksi .= '<button type="submit" class="btn '.$color.' btn-primary btn-sm" style="float:right" '.$dis.'>Proses</button><br><br>';
             $returntransaksi .= '<button type="button" class="btn '.$color.' btn-sm" onclick="'.$onclick.'" style="float:right"'.$dis.'>Close</button>';
             $returntransaksi .= '</form>';
             $returntransaksi .= '</div>';

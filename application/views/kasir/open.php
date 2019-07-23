@@ -81,6 +81,14 @@
         
         </span></li>
     </ul>
+    <center>
+    <?php if($payments == 'ovo'){ ?>    
+        <img src="<?=base_url()?>assets/ovoqr.jpg" style="width:100px;">
+    <?php }else if($payments == 'gopay'){ ?> 
+        <img src="<?=base_url()?>assets/goqr.jpg" style="width:100px;">
+    <?php }else{?> 
+    <?php }?> 
+    </center>
     </div>
     </center>
     <center>

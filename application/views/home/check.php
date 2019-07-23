@@ -42,10 +42,14 @@
                                             </center>
                                         </form> -->
                                         <?php
-                                            if($value->estimated_time != NULL){
+                                            if($value->estimated_time != NULL && $value->status != 'close'){
                                         ?>
                                         <div id="demo" style="font-size:16px; font-weight:bold" class="text-center"></div>
                                         <input type="hidden" value="<?=$value->estimated_time?>" id="countdown">
+                                        <?php }else if($value->estimated_time != NULL && $value->status == 'close'){ ?>
+                                        <div style="font-size:16px; font-weight:bold" class="text-center">
+                                            Pesanan Telah Selesai
+                                        </div>
                                         <?php }else{ ?>
                                         <div style="font-size:16px; font-weight:bold" class="text-center">
                                             Pesanan Belum diproses

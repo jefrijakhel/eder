@@ -23,6 +23,6 @@
       }
       </style>
   </head>
-  <body style="background-image:url('<?=base_url()?>assets/bg.jpeg')">
+  <body style="background-image:url('<?=base_url()?>assets/bglogin.jpeg')">
       <div class="container">
     

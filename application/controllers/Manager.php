@@ -8,7 +8,7 @@ class Manager extends CI_Controller {
         parent::__construct();
         $this->load->helper('url');
         $this->load->library('session');
-        $this->load->model(array('User','Menu','Bahanbaku','Cart','Komposisi','Meja','Transaksi','Employee','Posisi','Pengeluaran','Detailpenggajian','Belanja','Detailbelanja'));
+        $this->load->model(array('User','Menu','Payment','Bahanbaku','Cart','Komposisi','Meja','Transaksi','Employee','Posisi','Pengeluaran','Detailpenggajian','Belanja','Detailbelanja','Feedback'));
         if(!isset($_SESSION['emloggedin'])){
             echo '<script>alert("Authentication required"); window.location = "'.base_url().'employee";</script>';
         }else if($this->session->userdata('employee')['privillege']!='manager'){
@@ -24,13 +24,96 @@ class Manager extends CI_Controller {
         $data['footer']=$this->load->view('templates/home/footer',$data, true);
 		$this->load->view('templates/home/index',$data);
     }
+    public function feedback()
+	{
+        $data['title'] = 'Selamat Datang';
+        $data['sess'] = $this->session->userdata('employee');
+        $feedback = Feedback::get();
+        $q11=0;$q12=0;$q13=0;$q14=0;$q15=0;
+        $q21=0;$q22=0;$q23=0;$q24=0;$q25=0;
+        $q31=0;$q32=0;$q33=0;$q34=0;$q35=0;
+        $comment='';
+        foreach($feedback as $key=>$value){
+            if($value->id_pertanyaan == 0){
+                if($value->nilai == 1){
+                    $q11 += 1;
+                }
+                if($value->nilai == 2){
+                    $q12 += 1;
+                }
+                if($value->nilai == 3){
+                    $q13 += 1;
+                }
+                if($value->nilai == 4){
+                    $q14 += 1;
+                }
+                if($value->nilai == 5){
+                    $q15 += 1;
+                }
+            }
+            if($value->id_pertanyaan == 1){
+                if($value->nilai == 1){
+                    $q21 += 1;
+                }
+                if($value->nilai == 2){
+                    $q22 += 1;
+                }
+                if($value->nilai == 3){
+                    $q23 += 1;
+                }
+                if($value->nilai == 4){
+                    $q24 += 1;
+                }
+                if($value->nilai == 5){
+                    $q25 += 1;
+                }
+            }
+            if($value->id_pertanyaan == 2){
+                if($value->nilai == 1){
+                    $q31 += 1;
+                }
+                if($value->nilai == 2){
+                    $q32 += 1;
+                }
+                if($value->nilai == 3){
+                    $q33 += 1;
+                }
+                if($value->nilai == 4){
+                    $q34 += 1;
+                }
+                if($value->nilai == 5){
+                    $q35 += 1;
+                }
+            }
+            if($value->id_pertanyaan == 3 && $value->nilai != ''){
+                $comment .= '<li class="list-group-item">'.$value->nilai.'</li>';
+            }
+        }
+        $data['feedback'] = $feedback;
+        $data['q11']=$q11;$data['q12']=$q12;$data['q13']=$q13;$data['q14']=$q14;$data['q15']=$q15;
+		$data['q21']=$q21;$data['q22']=$q22;$data['q23']=$q23;$data['q24']=$q24;$data['q25']=$q25;
+        $data['q31']=$q31;$data['q32']=$q32;$data['q33']=$q33;$data['q34']=$q34;$data['q35']=$q35;
+        $data['comment'] = $comment;
+		$data['header']=$this->load->view('templates/home/header',$data, true);
+        $data['content']=$this->load->view('manager/feedback',$data, true);
+        $data['footer']=$this->load->view('templates/home/footer',$data, true);
+		$this->load->view('templates/home/index',$data);
+    }
 
     public function dashboard()
 	{
         $data['title'] = 'Selamat Datang';
-        $getTransaksi = Transaksi::selectRaw('*, sum(qty) as qty,DATE(transaksi.created_at) as day')
+        if(isset($_GET['from'])&&$_GET['from']!=''&&isset($_GET['to'])&&$_GET['to']!=''){
+            $getTransaksi = Transaksi::selectRaw('*, sum(qty) as qty,DATE(transaksi.created_at) as day')
+                                ->groupBy('day')
+                                ->where('created_at', '>=',$_GET['from'])
+                                ->where('created_at', '<=',$_GET['to'])
+                                ->get();
+        }else{
+            $getTransaksi = Transaksi::selectRaw('*, sum(qty) as qty,DATE(transaksi.created_at) as day')
                                 ->groupBy('day')
                                 ->get();
+        }
         $label = '';
         $dataset = '';
         $labelmakanan = '';
@@ -51,6 +134,7 @@ class Manager extends CI_Controller {
                                 ->orderBy('qty', 'DESC')
                                 ->limit(10)
                                 ->get();
+
         foreach($getTransaksi as $key=>$value){
             $date = date_create($value->day);
             $dates = date_format($date,'F j, Y');
@@ -68,6 +152,9 @@ class Manager extends CI_Controller {
         }
         // var_dump($labelminuman);
         // return false;
+        $data['ovo'] = Payment::where('metode','ovo')->count();
+        $data['cash'] = Payment::where('metode','cash')->count();
+        $data['gopay'] = Payment::where('metode','gopay')->count();
         $data['label'] = $label;
         $data['dataset'] = $dataset;
         $data['labelmakanan'] = $labelmakanan;

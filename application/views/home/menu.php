@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="card col-md-12">
+    <div class="col-md-12">
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12 text-uppercase" >
@@ -28,98 +28,98 @@
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="makanan" role="tabpanel" aria-labelledby="makanan-tab">
                         <div class="row" style="margin-bottom:10px;">
-                            <?php foreach($makanan as $key=>$value): ?>
-                                <div class="col-md-12 text-center" style="margin-bottom:5px;">
-                                    <div class="card mb-3" style="border:none">
-                                    <div class="row no-gutters">
-                                        <div class="col-md-2">
-                                        <img src="https://doktersehat.com/wp-content/uploads/2018/08/makanan-bayi-1-tahun-doktersehat.jpg" class="card-img" style="" alt="">
-                                        </div>
-                                        <div class="col-md-8 text-left">
-                                        <div class="card-body"style="">
-                                            <h5 class="card-title"><?=$value->nama_menu?></h5>
-                                            <p class="card-text"><?=$value->deskripsi_menu?></p>
-                                            <p class="card-text">Rp. <?=number_format($value->harga_menu,0)?></p>
-                                            <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
-                                        </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="card-body" style="background:cornflowerblue; border-radius:10px">
-                                                <form method="post" action="<?=base_url()?>order">
-                                                    <center>
-                                                    <input type="hidden" name="id_menu" class="form-control" value="<?=$value->id_menu?>">
-                                                    <input type="number" name="qty" class="form-control" value="0"><br>
-                                                    <input type="name" name="notes" class="form-control" placeholder="notes"><br>
-                                                    <button type="submit" class="form-control btn btn-info" name="addcart" style="">order</button>
-                                                    </center>
-                                                </form>
-                                            </div>
-                                        </div>
+                            <h6>Makanan Favorite</h6>
+                            <?php foreach($topma as $key2=>$value2): ?>
+                            <div class="col-md-12 col-sm-12" style="background-color:#fff; border-radius:10px;margin-bottom:5px;padding-left:5px;">
+                                <div class="row">
+                                    <div class="col-md-2 col-sm-2 col-4" style="padding-top:5px;padding-bottom:5px;">
+                                        <img src="https://doktersehat.com/wp-content/uploads/2018/08/makanan-bayi-1-tahun-doktersehat.jpg" class="img-fluid" alt="">
                                     </div>
+                                    <div class="col-md-6 col-sm-6 col-4" style="padding-top:5px;padding-bottom:5px;">
+                                        <?=$value2->nama_menu?> <br>
+                                        <small class="text-muted">Rp. <?=number_format($value2->harga_menu,0)?></small>
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-4" style="padding-top:5px;padding-bottom:5px;">
+                                        <form class="form-inline" method="post" action="<?=base_url()?>order">
+                                            <input type="hidden" name="id_menu" class="form-control" value2="<?=$value2->id_menu?>">
+                                            <input type="number" name="qty" class="form-control mb-2 mr-sm-2 form-control-sm" id="inlineFormInputName2" placeholder="Jane Doe">
+                                            <input type="name" name="notes" class="form-control mb-2 mr-sm-2 form-control-sm" id="inlineFormInputName2" placeholder="Jane Doe">
+                                            <button type="submit" class="btn btn-primary mb-2 btn-sm" name="addcart">Order</button>
+                                        </form>
                                     </div>
                                 </div>
+                            </div>
+                            <?php endforeach;?>
+                            <h6>Makanan Lengkap</h6>
+                            <?php foreach($makanan as $key=>$value): ?>
+                            <div class="col-md-12 col-sm-12" style="background-color:#fff; border-radius:10px;margin-bottom:5px;padding-left:5px;">
+                                <div class="row">
+                                    <div class="col-md-2 col-sm-2 col-4" style="padding-top:5px;padding-bottom:5px;">
+                                        <img src="https://doktersehat.com/wp-content/uploads/2018/08/makanan-bayi-1-tahun-doktersehat.jpg" class="img-fluid" alt="">
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-4" style="padding-top:5px;padding-bottom:5px;">
+                                        <?=$value->nama_menu?> <br>
+                                        <small class="text-muted">Rp. <?=number_format($value->harga_menu,0)?></small>
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-4" style="padding-top:5px;padding-bottom:5px;">
+                                        <form class="form-inline" method="post" action="<?=base_url()?>order">
+                                            <input type="hidden" name="id_menu" class="form-control" value="<?=$value->id_menu?>">
+                                            <input type="number" name="qty" class="form-control mb-2 mr-sm-2 form-control-sm" id="inlineFormInputName2" placeholder="Jane Doe">
+                                            <input type="name" name="notes" class="form-control mb-2 mr-sm-2 form-control-sm" id="inlineFormInputName2" placeholder="Jane Doe">
+                                            <button type="submit" class="btn btn-primary mb-2 btn-sm" name="addcart">Order</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                             <?php endforeach;?>
                         </div>
                     </div>
                     <div class="tab-pane fade" id="minuman" role="tabpanel" aria-labelledby="minuman-tab">
                         <div class="row" style="margin-bottom:10px;">
-                            <?php foreach($minuman as $key=>$value): ?>
-                                <div class="col-md-12 text-center" style="margin-bottom:5px;">
-                                    <div class="card mb-3" style="border:none">
-                                    <div class="row no-gutters">
-                                        <div class="col-md-2">
-                                        <img src="https://doktersehat.com/wp-content/uploads/2018/08/makanan-bayi-1-tahun-doktersehat.jpg" class="card-img" style="" alt="">
-                                        </div>
-                                        <div class="col-md-8 text-left">
-                                        <div class="card-body"style="">
-                                            <h5 class="card-title"><?=$value->nama_menu?></h5>
-                                            <p class="card-text"><?=$value->deskripsi_menu?></p>
-                                            <p class="card-text">Rp. <?=number_format($value->harga_menu,0)?></p>
-                                            <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
-                                        </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="card-body" style="background:cornflowerblue; border-radius:10px">
-                                                <form method="post" action="<?=base_url()?>order">
-                                                    <center>
-                                                    <input type="hidden" name="id_menu" class="form-control" value="<?=$value->id_menu?>">
-                                                    <input type="number" name="qty" class="form-control" value="0"><br>
-                                                    <input type="name" name="notes" class="form-control" placeholder="notes"><br>
-                                                    <button type="submit" class="form-control btn btn-info" name="addcart" style="">order</button>
-                                                    </center>
-                                                </form>
-                                            </div>
-                                        </div>
+                            <h6>Minuman Favorite</h6>
+                            <?php foreach($topmi as $key2=>$value2): ?>
+                            <div class="col-md-12 col-sm-12" style="background-color:#fff; border-radius:10px;margin-bottom:5px;padding-left:5px;">
+                                <div class="row">
+                                    <div class="col-md-2 col-sm-2 col-4" style="padding-top:5px;padding-bottom:5px;">
+                                        <img src="https://doktersehat.com/wp-content/uploads/2018/08/makanan-bayi-1-tahun-doktersehat.jpg" class="img-fluid" alt="">
                                     </div>
+                                    <div class="col-md-6 col-sm-6 col-4" style="padding-top:5px;padding-bottom:5px;">
+                                        <?=$value2->nama_menu?> <br>
+                                        <small class="text-muted">Rp. <?=number_format($value2->harga_menu,0)?></small>
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-4" style="padding-top:5px;padding-bottom:5px;">
+                                        <form class="form-inline" method="post" action="<?=base_url()?>order">
+                                            <input type="hidden" name="id_menu" class="form-control" value2="<?=$value2->id_menu?>">
+                                            <input type="number" name="qty" class="form-control mb-2 mr-sm-2 form-control-sm" id="inlineFormInputName2" placeholder="Jane Doe">
+                                            <input type="name" name="notes" class="form-control mb-2 mr-sm-2 form-control-sm" id="inlineFormInputName2" placeholder="Jane Doe">
+                                            <button type="submit" class="btn btn-primary mb-2 btn-sm" name="addcart">Order</button>
+                                        </form>
                                     </div>
                                 </div>
+                            </div>
                             <?php endforeach;?>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="cart" role="tabpanel" aria-labelledby="cart-tab">
-                        <div class="row" style="margin-bottom:10px;">
-                            <?php for($i=1;$i<7;$i++){ ?>
-                                <div class="col-md-12 text-center" style="margin-bottom:5px;">
-                                    <div class="card mb-3" style="border:none">
-                                    <div class="row no-gutters">
-                                        <div class="col-md-2">
-                                        <img src="https://doktersehat.com/wp-content/uploads/2018/08/makanan-bayi-1-tahun-doktersehat.jpg" class="card-img" style="" alt="">
-                                        </div>
-                                        <div class="col-md-8 text-left">
-                                        <div class="card-body"style="">
-                                            <h5 class="card-title">Nama Minuman</h5>
-                                            <p class="card-text">Deskripsi Minuman</p>
-                                            <p class="card-text">Rp. 50.000</p>
-                                            <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
-                                        </div>
-                                        </div>
+                            <h6>Minuman Lengkap</h6>
+                            <?php foreach($minuman as $key=>$value): ?>
+                            <div class="col-md-12 col-sm-12" style="background-color:#fff; border-radius:10px;margin-bottom:5px;padding-left:5px;">
+                                <div class="row">
+                                    <div class="col-md-2 col-sm-2 col-4" style="padding-top:5px;padding-bottom:5px;">
+                                        <img src="https://doktersehat.com/wp-content/uploads/2018/08/makanan-bayi-1-tahun-doktersehat.jpg" class="img-fluid" alt="">
                                     </div>
+                                    <div class="col-md-6 col-sm-6 col-4" style="padding-top:5px;padding-bottom:5px;">
+                                        <?=$value->nama_menu?> <br>
+                                        <small class="text-muted">Rp. <?=number_format($value->harga_menu,0)?></small>
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-4" style="padding-top:5px;padding-bottom:5px;">
+                                        <form class="form-inline" method="post" action="<?=base_url()?>order">
+                                            <input type="hidden" name="id_menu" class="form-control" value="<?=$value->id_menu?>">
+                                            <input type="number" name="qty" class="form-control mb-2 mr-sm-2 form-control-sm" id="inlineFormInputName2" placeholder="Jane Doe">
+                                            <input type="name" name="notes" class="form-control mb-2 mr-sm-2 form-control-sm" id="inlineFormInputName2" placeholder="Jane Doe">
+                                            <button type="submit" class="btn btn-primary mb-2 btn-sm" name="addcart">Order</button>
+                                        </form>
                                     </div>
                                 </div>
-                            <?php } ?>
-                                <div class="col-md-12 text-center" style="margin-bottom:5px;">
-                                    <button type="button" class="btn btn-primary">Confirm Order</button>
-                                </div>
+                            </div>
+                            <?php endforeach;?>
                         </div>
                     </div>
                 </div>

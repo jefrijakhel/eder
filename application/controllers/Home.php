@@ -14,7 +14,7 @@ class Home extends CI_Controller {
 	public function index()
 	{
         $data['title'] = 'Selamat Datang';
-		$data['header']=$this->load->view('templates/home/header',$data, true);
+		$data['header']=$this->load->view('templates/home/headerlogin',$data, true);
         $data['content']=$this->load->view('home/index',$data, true);
         $data['footer']=$this->load->view('templates/home/footer',$data, true);
 		$this->load->view('templates/home/index',$data);
@@ -35,7 +35,7 @@ class Home extends CI_Controller {
         if($this->session->userdata('loggedin')==TRUE){
             $data['meja'] = $this->session->userdata('meja');
             $data['title'] = 'Login Meja';
-            $data['header']=$this->load->view('templates/home/header',$data, true);
+            $data['header']=$this->load->view('templates/home/headerlogin',$data, true);
             $data['content']=$this->load->view('home/login',$data, true);
             $data['footer']=$this->load->view('templates/home/footer',$data, true);
             $this->load->view('templates/home/index',$data);
@@ -74,7 +74,7 @@ class Home extends CI_Controller {
                         $no_hp = '-';
                     }
                     $dataMeja = array(
-                        'no_meja'          => $meja[0]['no_meja'],
+                        'no_meja'       => $meja[0]['no_meja'],
                         'nama_customer' => $meja[0]['nama_customer'],
                         'email'         => $email,
                         'no_hp'         => $no_hp
@@ -127,7 +127,21 @@ class Home extends CI_Controller {
         $data['title']          = 'Pilih Menu';
         $data['makanan']        = Menu::where('jenis_menu','makanan')->get();
         $data['minuman']        = Menu::where('jenis_menu','minuman')->get();
-		$data['countcart']      = Cart::where('meja',$this->session->userdata('meja'))->count(); 
+        $data['countcart']      = Cart::where('meja',$this->session->userdata('meja'))->count(); 
+        $data['topma'] = Transaksi::selectRaw('*, sum(qty) as qty')
+                                ->leftJoin('menu', 'transaksi.id_menu','=','menu.id_menu')
+                                ->where('menu.jenis_menu','makanan')
+                                ->groupBy('transaksi.id_menu')
+                                ->orderBy('qty', 'DESC')
+                                ->limit(10)
+                                ->get();
+        $data['topmi'] = Transaksi::selectRaw('*, sum(qty) as qty')
+                                ->leftJoin('menu', 'transaksi.id_menu','=','menu.id_menu')
+                                ->where('menu.jenis_menu','minuman')
+                                ->groupBy('transaksi.id_menu')
+                                ->orderBy('qty', 'DESC')
+                                ->limit(10)
+                                ->get();
 		$data['header']         = $this->load->view('templates/home/header',$data, true);
         $data['content']        = $this->load->view('home/menu',$data, true);
         $data['footer']         = $this->load->view('templates/home/footer',$data, true);
@@ -215,7 +229,7 @@ class Home extends CI_Controller {
         $data['title']          = 'Welcome';
         $data['countcart']      = Cart::where('meja',$this->session->userdata('meja'))->count();
         $data['cart']           = Cart::where('meja',$this->session->userdata('meja'))->get();
-		$data['header']         = $this->load->view('templates/home/header',$data, true);
+		$data['header']         = $this->load->view('templates/home/headerfeedback',$data, true);
         $data['content']        = $this->load->view('home/success',$data, true);
         $data['footer']         = $this->load->view('templates/home/footer',$data, true);
 
@@ -227,12 +241,13 @@ class Home extends CI_Controller {
         $q = [
             'Bagaimana makanan di Kafe Elther?',
             'Bagaimana suasana di Kafe Elther?',
-            'Bagaimana pelayanan di Kafe Elther?'
+            'Bagaimana pelayanan di Kafe Elther?',
+            'Komentar'
             ];
 
         
         $feedback = array();
-        for($i=0;$i<3;$i++){
+        for($i=0;$i<4;$i++){
             $j = 1+$i;
             array_push($feedback,
                 array(
@@ -388,7 +403,7 @@ class Home extends CI_Controller {
         $data['no_hp']          = $sessMeja['no_hp'];
         $data['title']          = 'Welcome';
         $data['countcart']      = Cart::where('meja',$this->session->userdata('meja'))->count();
-        $data['cart']           = Transaksi::where('meja',$this->session->userdata('meja'))->whereNotIn('status',['close'])->get();
+        $data['cart']           = Transaksi::where('meja',$this->session->userdata('meja'))->where('transaksi_fk',$this->session->userdata('id_transaksi'))->get();
 		$data['header']         = $this->load->view('templates/home/header',$data, true);
         $data['content']        = $this->load->view('home/check',$data, true);
         $data['footer']         = $this->load->view('templates/home/footer',$data, true);

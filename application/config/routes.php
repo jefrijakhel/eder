@@ -102,3 +102,5 @@ $route['dapur/update-harga'] = 'dapur/updateharga';
 $route['manager/approvebelanja/(:any)'] = 'manager/approve/$1';
 
 $route['submit-feedback'] = 'home/submitfeedback';
+
+$route['manager/feedback']  = 'manager/feedback';

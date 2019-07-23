@@ -14,7 +14,7 @@ class Login extends CI_Controller {
     public function index()
 	{
         $data['title'] = 'Selamat Datang';
-		$data['header']=$this->load->view('templates/home/header',$data, true);
+		$data['header']=$this->load->view('templates/home/headerlogin',$data, true);
         $data['content']=$this->load->view('login/index',$data, true);
         $data['footer']=$this->load->view('templates/home/footer',$data, true);
 		$this->load->view('templates/home/index',$data);
