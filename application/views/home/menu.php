@@ -46,7 +46,7 @@
                                     </div>
                                     <div class="col-md-4 col-sm-4 col-4" style="padding-top:5px;padding-bottom:5px;">
                                         <form class="form-inline" method="post" action="<?=base_url()?>order">
-                                            <input type="hidden" name="id_menu" class="form-control" value2="<?=$value2->id_menu?>">
+                                            <input type="hidden" name="id_menu" class="form-control" value="<?=$value2->id_menu?>">
                                             <input type="number" name="qty" class="form-control mb-2 mr-sm-2 form-control-sm" id="inlineFormInputName2" placeholder="qty">
                                             <input type="name" name="notes" class="form-control mb-2 mr-sm-2 form-control-sm" id="inlineFormInputName2" placeholder="notes">
                                             <button type="submit" class="btn btn-primary mb-2 btn-sm" name="addcart">Order</button>
@@ -104,7 +104,7 @@
                                     </div>
                                     <div class="col-md-4 col-sm-4 col-4" style="padding-top:5px;padding-bottom:5px;">
                                         <form class="form-inline" method="post" action="<?=base_url()?>order">
-                                            <input type="hidden" name="id_menu" class="form-control" value2="<?=$value2->id_menu?>">
+                                            <input type="hidden" name="id_menu" class="form-control" value="<?=$value2->id_menu?>">
                                             <input type="number" name="qty" class="form-control mb-2 mr-sm-2 form-control-sm" id="inlineFormInputName2" placeholder="qty">
                                             <input type="name" name="notes" class="form-control mb-2 mr-sm-2 form-control-sm" id="inlineFormInputName2" placeholder="notes">
                                             <button type="submit" class="btn btn-primary mb-2 btn-sm" name="addcart">Order</button>
