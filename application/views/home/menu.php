@@ -33,7 +33,12 @@
                             <div class="col-md-12 col-sm-12" style="background-color:#fff; border-radius:10px;margin-bottom:5px;padding-left:5px;">
                                 <div class="row">
                                     <div class="col-md-2 col-sm-2 col-4" style="padding-top:5px;padding-bottom:5px;">
+                                        <?php
+                                        if($value2->foto == '' || $value2->foto == NULL){?>
                                         <img src="https://doktersehat.com/wp-content/uploads/2018/08/makanan-bayi-1-tahun-doktersehat.jpg" class="img-fluid" alt="">
+                                        <?php }else{?>
+                                            <img src="<?=$value2->foto?>" class="img-fluid" alt="">
+                                        <?php } ?>
                                     </div>
                                     <div class="col-md-6 col-sm-6 col-4" style="padding-top:5px;padding-bottom:5px;">
                                         <?=$value2->nama_menu?> <br>
@@ -42,8 +47,8 @@
                                     <div class="col-md-4 col-sm-4 col-4" style="padding-top:5px;padding-bottom:5px;">
                                         <form class="form-inline" method="post" action="<?=base_url()?>order">
                                             <input type="hidden" name="id_menu" class="form-control" value2="<?=$value2->id_menu?>">
-                                            <input type="number" name="qty" class="form-control mb-2 mr-sm-2 form-control-sm" id="inlineFormInputName2" placeholder="Jane Doe">
-                                            <input type="name" name="notes" class="form-control mb-2 mr-sm-2 form-control-sm" id="inlineFormInputName2" placeholder="Jane Doe">
+                                            <input type="number" name="qty" class="form-control mb-2 mr-sm-2 form-control-sm" id="inlineFormInputName2" placeholder="qty">
+                                            <input type="name" name="notes" class="form-control mb-2 mr-sm-2 form-control-sm" id="inlineFormInputName2" placeholder="notes">
                                             <button type="submit" class="btn btn-primary mb-2 btn-sm" name="addcart">Order</button>
                                         </form>
                                     </div>
@@ -55,7 +60,12 @@
                             <div class="col-md-12 col-sm-12" style="background-color:#fff; border-radius:10px;margin-bottom:5px;padding-left:5px;">
                                 <div class="row">
                                     <div class="col-md-2 col-sm-2 col-4" style="padding-top:5px;padding-bottom:5px;">
+                                    <?php
+                                        if($value->foto == '' || $value->foto == NULL){?>
                                         <img src="https://doktersehat.com/wp-content/uploads/2018/08/makanan-bayi-1-tahun-doktersehat.jpg" class="img-fluid" alt="">
+                                        <?php }else{?>
+                                            <img src="<?=$value->foto?>" class="img-fluid" alt="">
+                                        <?php } ?>
                                     </div>
                                     <div class="col-md-6 col-sm-6 col-4" style="padding-top:5px;padding-bottom:5px;">
                                         <?=$value->nama_menu?> <br>
@@ -64,8 +74,8 @@
                                     <div class="col-md-4 col-sm-4 col-4" style="padding-top:5px;padding-bottom:5px;">
                                         <form class="form-inline" method="post" action="<?=base_url()?>order">
                                             <input type="hidden" name="id_menu" class="form-control" value="<?=$value->id_menu?>">
-                                            <input type="number" name="qty" class="form-control mb-2 mr-sm-2 form-control-sm" id="inlineFormInputName2" placeholder="Jane Doe">
-                                            <input type="name" name="notes" class="form-control mb-2 mr-sm-2 form-control-sm" id="inlineFormInputName2" placeholder="Jane Doe">
+                                            <input type="number" name="qty" class="form-control mb-2 mr-sm-2 form-control-sm" id="inlineFormInputName2" placeholder="qty">
+                                            <input type="name" name="notes" class="form-control mb-2 mr-sm-2 form-control-sm" id="inlineFormInputName2" placeholder="notes">
                                             <button type="submit" class="btn btn-primary mb-2 btn-sm" name="addcart">Order</button>
                                         </form>
                                     </div>
@@ -81,7 +91,12 @@
                             <div class="col-md-12 col-sm-12" style="background-color:#fff; border-radius:10px;margin-bottom:5px;padding-left:5px;">
                                 <div class="row">
                                     <div class="col-md-2 col-sm-2 col-4" style="padding-top:5px;padding-bottom:5px;">
+                                    <?php
+                                        if($value2->foto == '' || $value2->foto == NULL){?>
                                         <img src="https://doktersehat.com/wp-content/uploads/2018/08/makanan-bayi-1-tahun-doktersehat.jpg" class="img-fluid" alt="">
+                                        <?php }else{?>
+                                            <img src="<?=$value2->foto?>" class="img-fluid" alt="">
+                                        <?php } ?>
                                     </div>
                                     <div class="col-md-6 col-sm-6 col-4" style="padding-top:5px;padding-bottom:5px;">
                                         <?=$value2->nama_menu?> <br>
@@ -90,8 +105,8 @@
                                     <div class="col-md-4 col-sm-4 col-4" style="padding-top:5px;padding-bottom:5px;">
                                         <form class="form-inline" method="post" action="<?=base_url()?>order">
                                             <input type="hidden" name="id_menu" class="form-control" value2="<?=$value2->id_menu?>">
-                                            <input type="number" name="qty" class="form-control mb-2 mr-sm-2 form-control-sm" id="inlineFormInputName2" placeholder="Jane Doe">
-                                            <input type="name" name="notes" class="form-control mb-2 mr-sm-2 form-control-sm" id="inlineFormInputName2" placeholder="Jane Doe">
+                                            <input type="number" name="qty" class="form-control mb-2 mr-sm-2 form-control-sm" id="inlineFormInputName2" placeholder="qty">
+                                            <input type="name" name="notes" class="form-control mb-2 mr-sm-2 form-control-sm" id="inlineFormInputName2" placeholder="notes">
                                             <button type="submit" class="btn btn-primary mb-2 btn-sm" name="addcart">Order</button>
                                         </form>
                                     </div>
@@ -103,7 +118,12 @@
                             <div class="col-md-12 col-sm-12" style="background-color:#fff; border-radius:10px;margin-bottom:5px;padding-left:5px;">
                                 <div class="row">
                                     <div class="col-md-2 col-sm-2 col-4" style="padding-top:5px;padding-bottom:5px;">
+                                    <?php
+                                        if($value->foto == '' || $value->foto == NULL){?>
                                         <img src="https://doktersehat.com/wp-content/uploads/2018/08/makanan-bayi-1-tahun-doktersehat.jpg" class="img-fluid" alt="">
+                                        <?php }else{?>
+                                            <img src="<?=$value->foto?>" class="img-fluid" alt="">
+                                        <?php } ?>
                                     </div>
                                     <div class="col-md-6 col-sm-6 col-4" style="padding-top:5px;padding-bottom:5px;">
                                         <?=$value->nama_menu?> <br>
@@ -112,8 +132,8 @@
                                     <div class="col-md-4 col-sm-4 col-4" style="padding-top:5px;padding-bottom:5px;">
                                         <form class="form-inline" method="post" action="<?=base_url()?>order">
                                             <input type="hidden" name="id_menu" class="form-control" value="<?=$value->id_menu?>">
-                                            <input type="number" name="qty" class="form-control mb-2 mr-sm-2 form-control-sm" id="inlineFormInputName2" placeholder="Jane Doe">
-                                            <input type="name" name="notes" class="form-control mb-2 mr-sm-2 form-control-sm" id="inlineFormInputName2" placeholder="Jane Doe">
+                                            <input type="number" name="qty" class="form-control mb-2 mr-sm-2 form-control-sm" id="inlineFormInputName2" placeholder="qty">
+                                            <input type="name" name="notes" class="form-control mb-2 mr-sm-2 form-control-sm" id="inlineFormInputName2" placeholder="notes">
                                             <button type="submit" class="btn btn-primary mb-2 btn-sm" name="addcart">Order</button>
                                         </form>
                                     </div>

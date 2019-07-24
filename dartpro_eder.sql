@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 24 Jul 2019 pada 01.36
+-- Waktu pembuatan: 24 Jul 2019 pada 07.08
 -- Versi server: 10.1.32-MariaDB
 -- Versi PHP: 7.2.5
 
@@ -255,6 +255,7 @@ CREATE TABLE `menu` (
   `jenis_menu` varchar(50) NOT NULL,
   `harga_menu` int(11) NOT NULL,
   `vendor` varchar(50) NOT NULL,
+  `foto` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -263,20 +264,20 @@ CREATE TABLE `menu` (
 -- Dumping data untuk tabel `menu`
 --
 
-INSERT INTO `menu` (`id_menu`, `sub_menu`, `nama_menu`, `deskripsi_menu`, `jenis_menu`, `harga_menu`, `vendor`, `created_at`, `updated_at`) VALUES
-(1, 'hot coffee', 'Kopi Tubruk', '-', 'minuman', 15000, 'elther', '2019-07-01 20:05:39', '2019-07-01 20:05:39'),
-(2, 'hot coffee', 'Americano', '-', 'minuman', 20000, 'elther', '2019-07-01 20:07:43', '2019-07-01 20:07:43'),
-(3, 'hot coffee', 'Espresso', '-', 'minuman', 15000, 'Elther', '2019-07-21 19:28:54', '2019-07-21 19:28:54'),
-(4, 'ice coffee', 'Milk Americano', '-', 'minuman', 25000, 'elther', '2019-07-01 20:05:39', '2019-07-01 20:05:39'),
-(5, 'hot coffee', 'Black Vietnam', '-', 'minuman', 20000, 'elther', '2019-07-01 20:07:43', '2019-07-01 20:07:43'),
-(6, 'hot coffee', 'Mokapot', '-', 'minuman', 25000, 'Elther', '2019-07-21 19:28:54', '2019-07-21 19:28:54'),
-(7, 'ice coffee', 'v60', '-', 'minuman', 25000, 'elther', '2019-07-01 20:05:39', '2019-07-01 20:05:39'),
-(8, 'hot coffee', 'Milk Vietnam', '-', 'minuman', 25000, 'elther', '2019-07-01 20:07:43', '2019-07-01 20:07:43'),
-(9, 'hot coffee', 'Long Black', '-', 'minuman', 20000, 'Elther', '2019-07-21 19:28:54', '2019-07-21 19:28:54'),
-(10, 'ice coffee', 'Cappucino', '-', 'minuman', 27000, 'elther', '2019-07-01 20:05:39', '2019-07-01 20:05:39'),
-(11, 'hot coffee', 'Latte', '-', 'minuman', 27000, 'elther', '2019-07-01 20:07:43', '2019-07-01 20:07:43'),
-(12, 'hot coffee', 'Espresso', '-', 'minuman', 15000, 'Elther', '2019-07-21 19:28:54', '2019-07-21 19:28:54'),
-(14, 'hot coffee', 'Bowl 1', 'Chicken Popcorn Scramble egg, Vegie', 'makanan', 25000, 'elther', '2019-07-01 20:07:43', '2019-07-01 20:07:43');
+INSERT INTO `menu` (`id_menu`, `sub_menu`, `nama_menu`, `deskripsi_menu`, `jenis_menu`, `harga_menu`, `vendor`, `foto`, `created_at`, `updated_at`) VALUES
+(1, 'hot coffee', 'Kopi Tubruk', '-', 'minuman', 15000, 'elther', 'https://awsimages.detik.net.id/community/media/visual/2018/09/28/abb364fb-a7c3-4851-977a-f270ced32c62.jpeg', '2019-07-01 20:05:39', '2019-07-01 20:05:39'),
+(2, 'hot coffee', 'Americano', '-', 'minuman', 20000, 'elther', '', '2019-07-01 20:07:43', '2019-07-01 20:07:43'),
+(3, 'hot coffee', 'Espresso', '-', 'minuman', 15000, 'Elther', '', '2019-07-21 19:28:54', '2019-07-21 19:28:54'),
+(4, 'ice coffee', 'Milk Americano', '-', 'minuman', 25000, 'elther', '', '2019-07-01 20:05:39', '2019-07-01 20:05:39'),
+(5, 'hot coffee', 'Black Vietnam', '-', 'minuman', 20000, 'elther', '', '2019-07-01 20:07:43', '2019-07-01 20:07:43'),
+(6, 'hot coffee', 'Mokapot', '-', 'minuman', 25000, 'Elther', '', '2019-07-21 19:28:54', '2019-07-21 19:28:54'),
+(7, 'ice coffee', 'v60', '-', 'minuman', 25000, 'elther', '', '2019-07-01 20:05:39', '2019-07-01 20:05:39'),
+(8, 'hot coffee', 'Milk Vietnam', '-', 'minuman', 25000, 'elther', '', '2019-07-01 20:07:43', '2019-07-01 20:07:43'),
+(9, 'hot coffee', 'Long Black', '-', 'minuman', 20000, 'Elther', '', '2019-07-21 19:28:54', '2019-07-21 19:28:54'),
+(10, 'ice coffee', 'Cappucino', '-', 'minuman', 27000, 'elther', '', '2019-07-01 20:05:39', '2019-07-01 20:05:39'),
+(11, 'hot coffee', 'Latte', '-', 'minuman', 27000, 'elther', '', '2019-07-01 20:07:43', '2019-07-01 20:07:43'),
+(12, 'hot coffee', 'Espresso', '-', 'minuman', 15000, 'Elther', '', '2019-07-21 19:28:54', '2019-07-21 19:28:54'),
+(14, 'hot coffee', 'Bowl 1', 'Chicken Popcorn Scramble egg, Vegie', 'makanan', 25000, 'elther', '', '2019-07-01 20:07:43', '2019-07-01 20:07:43');
 
 -- --------------------------------------------------------
 

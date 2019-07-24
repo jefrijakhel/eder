@@ -9,7 +9,7 @@ class Menu extends Eloquent {
                             'nama_menu', 
                             'deskripsi_menu',
                             'jenis_menu',
-                            'vendor',
+                            'vendor','foto',
                             'harga_menu'];
     public $timestamps = false;
 }
