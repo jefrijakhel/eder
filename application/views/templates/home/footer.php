@@ -217,7 +217,7 @@
                                 min: 0,
                                 max: 5,
                                 step: 1,
-                                size: 'sm',
+                                size: 'xs',
                                 showClear: false
                             });
                 $inp.on('rating.change', function () {
@@ -228,7 +228,7 @@
                                 min: 0,
                                 max: 5,
                                 step: 1,
-                                size: 'sm',
+                                size: 'xs',
                                 showClear: false
                             });
                 $inp2.on('rating.change', function () {
@@ -239,7 +239,7 @@
                                 min: 0,
                                 max: 5,
                                 step: 1,
-                                size: 'sm',
+                                size: 'xs',
                                 showClear: false
                             });
                 $inp3.on('rating.change', function () {
