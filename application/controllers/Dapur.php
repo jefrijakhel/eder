@@ -70,17 +70,23 @@ class Dapur extends CI_Controller {
 
     public function getTransaksiMakanan()
     {
-        $transaksi = Transaksi::orderBy('created_at','DESC')->get();
+        
+        $this->closeauto();
+        $transaksi = Transaksi::orderBy('created_at','ASC')->get();
         $returntransaksi = '';
         foreach($transaksi as $key=>$value){
-            if($value->status != ''){
+            if($value->status != 'close'){
             $menu = Menu::where('id_menu',$value->id_menu)->get();
             $onclick = "window.location='".base_url()."close-order/".$value->id_transaksi."'";
             $color = 'btn-primary';
             $dis = '';
+            $dispro = '';
             if($value->status == 'close'){
                 $color = 'btn-default';
                 $dis = 'disabled';
+            }
+            if($value->status == 'diproses'){
+                $dispro = 'disabled';
             }
             if($menu[0]['jenis_menu']=='makanan'){
             $returntransaksi .= '<div class="card">';
@@ -91,7 +97,7 @@ class Dapur extends CI_Controller {
             $returntransaksi .= '<div class="col-md-4 col-sm-4" style="float:right">';
             $returntransaksi .= '<form method="post" action="'.base_url().'proses-order">';
             $returntransaksi .= '<input type="hidden" name="id_transaksi" value="'.$value->id_transaksi.'">';
-            $returntransaksi .= '<button type="submit" class="btn '.$color.' btn-primary btn-sm" style="float:right" '.$dis.'>Proses</button><br><br>';
+            $returntransaksi .= '<button type="submit" class="btn '.$color.' btn-primary btn-sm" style="float:right" '.$dispro.'>Proses</button><br><br>';
             $returntransaksi .= '<button type="button" class="btn '.$color.' btn-sm" onclick="'.$onclick.'" style="float:right"'.$dis.'>Close</button>';
             $returntransaksi .= '</form>';
             $returntransaksi .= '</div>';
@@ -101,11 +107,13 @@ class Dapur extends CI_Controller {
             }
         }
         echo $returntransaksi;
+        
     }
 
     public function getTransaksiMinuman()
     {
-        $transaksi = Transaksi::orderBy('created_at','DESC')->get();
+        $this->closeauto();
+        $transaksi = Transaksi::orderBy('created_at','ASC')->get();
         $returntransaksi = '';
         foreach($transaksi as $key=>$value){
             if($value->status != 'close'){
@@ -113,9 +121,13 @@ class Dapur extends CI_Controller {
             $onclick = "window.location='".base_url()."close-order/".$value->id_transaksi."'";
             $color = 'btn-primary';
             $dis = '';
+            $dispro = '';
             if($value->status == 'close'){
                 $color = 'btn-default';
                 $dis = 'disabled';
+            }
+            if($value->status == 'diproses'){
+                $dispro = 'disabled';
             }
             if($menu[0]['jenis_menu']=='minuman'){
             $returntransaksi .= '<div class="card">';
@@ -126,7 +138,7 @@ class Dapur extends CI_Controller {
             $returntransaksi .= '<div class="col-md-4 col-sm-4" style="float:right">';
             $returntransaksi .= '<form method="post" action="'.base_url().'proses-order">';
             $returntransaksi .= '<input type="hidden" name="id_transaksi" value="'.$value->id_transaksi.'">';
-            $returntransaksi .= '<button type="submit" class="btn '.$color.' btn-primary btn-sm" style="float:right" '.$dis.'>Proses</button><br><br>';
+            $returntransaksi .= '<button type="submit" class="btn '.$color.' btn-primary btn-sm" style="float:right" '.$dispro.'>Proses</button><br><br>';
             $returntransaksi .= '<button type="button" class="btn '.$color.' btn-sm" onclick="'.$onclick.'" style="float:right"'.$dis.'>Close</button>';
             $returntransaksi .= '</form>';
             $returntransaksi .= '</div>';
@@ -142,18 +154,22 @@ class Dapur extends CI_Controller {
     {
         if(isset($_POST['proceed'])){
             $time = $this->input->post('waktu_penyajian');
-            $id_transaksi = $this->input->post('id_transaksi');
-            if(function_exists('date_default_timezone_set')) date_default_timezone_set('Asia/Jakarta');
-            $date = date_create(date("Y-m-d H:i:s"));
-            // var_dump($date);
-            // return false;
-            echo 'Waktu awal: 20-02-2012 19:30:20<br/>';
-            $plustime = $time.' minutes';
-            date_add($date, date_interval_create_from_date_string($plustime));
-            echo 'Tambahkan 10 menit: '.date_format($date, 'Y-m-d H:i:s').'<br/><br/>';
-            $data = array('status'=>'diproses','estimated_time'=>date_format($date, 'Y-m-d H:i:s'),'updated_at'=>date_format($date, 'Y-m-d H:i:s'));
-            $update = Transaksi::where('id_transaksi',$id_transaksi)->update($data);
-            redirect(base_url().'dapur/list-pesanan');
+            if($time < 1){
+                echo '<script>alert("Waktu tidak valid"); window.location = "'.base_url().'dapur/list-pesanan";</script>';
+            }else{
+                $id_transaksi = $this->input->post('id_transaksi');
+                if(function_exists('date_default_timezone_set')) date_default_timezone_set('Asia/Jakarta');
+                $date = date_create(date("Y-m-d H:i:s"));
+                // var_dump($date);
+                // return false;
+                echo 'Waktu awal: 20-02-2012 19:30:20<br/>';
+                $plustime = $time.' minutes';
+                date_add($date, date_interval_create_from_date_string($plustime));
+                echo 'Tambahkan 10 menit: '.date_format($date, 'Y-m-d H:i:s').'<br/><br/>';
+                $data = array('status'=>'diproses','estimated_time'=>date_format($date, 'Y-m-d H:i:s'),'updated_at'=>date_format($date, 'Y-m-d H:i:s'));
+                $update = Transaksi::where('id_transaksi',$id_transaksi)->update($data);
+                redirect(base_url().'dapur/list-pesanan');
+            }
         }else{
             $data['title'] = 'Selamat Datang';
             $data['id_transaksi'] = $this->input->post('id_transaksi');
@@ -163,6 +179,34 @@ class Dapur extends CI_Controller {
             $this->load->view('templates/home/index',$data);
         }
         
+    }
+
+    public function closeauto()
+    {
+        $get = Transaksi::whereNotIn('status',['close'])->get();
+        foreach($get as $key=>$value){
+            if($value->estimated_time != '' || $value->estimated_time != NULL){
+                date_default_timezone_set('Asia/Jakarta');
+                $awal  = strtotime($value->estimated_time); //waktu awal
+
+                $akhir = strtotime(date('Y-m-d H:i:s')); //waktu akhir
+
+                $diff  = $akhir - $awal;
+
+                $jam   = floor($diff / (60 * 60));
+
+                $menit = $diff - $jam * (60 * 60);
+                
+
+                // echo $diff;
+                // echo ' Waktu Tersisa tinggal: ' . $jam .  ' jam, ' . floor( $menit / 60 ) . ' menit ';
+
+
+                if($diff > 0){
+                    $this->close($value->id_transaksi);
+                }
+            }
+        }
     }
 
     public function close($id)

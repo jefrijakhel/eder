@@ -104,3 +104,4 @@ $route['manager/approvebelanja/(:any)'] = 'manager/approve/$1';
 $route['submit-feedback'] = 'home/submitfeedback';
 
 $route['manager/feedback']  = 'manager/feedback';
+$route['order-close-auto'] = 'dapur/closeauto';
