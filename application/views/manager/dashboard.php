@@ -8,31 +8,99 @@
     </div>                    
 </div>
 <br>
-<div class="row">
-    <div class="col-md-8">
+<div class="row" style=" padding-bottom:20px;">
+<div class="col-md-2">
+        <div class="card">
+            <div class="card-header text-center">
+                <span style="font-size:24px;font-weight:bold"><?=$penjualan?></span>
+                <small class="form-text text-muted">Penjualan</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card">
+            <div class="card-header text-center">
+            <span style="font-size:24px;font-weight:bold"><?=$menu?></span>
+                <small class="form-text text-muted">Menu</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card">
+            <div class="card-header text-center">
+                <span style="font-size:24px;font-weight:bold"><?=$karyawan?></span>
+                <small class="form-text text-muted">Karyawan</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card">
+            <div class="card-header text-center">
+                <span style="font-size:24px;font-weight:bold"><?=$ratingmenu?></span>/5
+                <small class="form-text text-muted">Rating Menu</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card">
+            <div class="card-header text-center">
+                <span style="font-size:24px;font-weight:bold"><?=$ratingpelayanan?></span>/5
+                <small class="form-text text-muted">Rating Pelayanan</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card">
+            <div class="card-header text-center">
+                <span style="font-size:24px;font-weight:bold"><?=$ratingsuasana?></span>/5
+                <small class="form-text text-muted">Rating Suasana</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12" style="margin-top:20px;">
         <div class="card">
             <div class="card-body">
-                <form class="form-inline" method="get" action="">
+                <form class="form-inline" method="get" action="#">
                     <label class="my-1 mr-2" for="inlineFormInputName2">From</label>
-                    <input type="date" class="form-control mb-2 mr-sm-2 form-control-sm" name="from" id="inlineFormInputName2" placeholder="Jane Doe">
+                    <input type="date" class="form-control mb-2 mr-sm-2" name="from" value="<?=$from?>" id="inlineFormInputName2">
                     <label class="my-1 mr-2" for="inlineFormInputName2">To</label>
-                    <input type="date" class="form-control mb-2 mr-sm-2 form-control-sm" name="to" id="inlineFormInputName2" placeholder="Jane Doe">
+                    <input type="date" class="form-control mb-2 mr-sm-2 form-control-sm" name="to" value="<?=$to?>" id="inlineFormInputName2">
                     <button type="submit" class="btn btn-primary mb-2 btn-sm">Submit</button>
                 </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6" style="margin-top:20px;">
+        <div class="card">
+            <div class="card-body">
                 <canvas id="transaksi"></canvas>
             </div>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-6" style="margin-top:20px;">
         <div class="card">
             <div class="card-header">
                 Metode Pembayaran
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">OVO : <?=$ovo?></li>
-                <li class="list-group-item">GOPAY : <?=$gopay?></li>
-                <li class="list-group-item">CASH : <?=$cash?></li>
+                <li class="list-group-item">OVO : Rp. <?=number_format($ovo,0)?></li>
+                <li class="list-group-item">GOPAY : Rp. <?=number_format($gopay,0)?></li>
+                <li class="list-group-item">CASH : Rp. <?=number_format($cash,0)?></li>
             </ul>
+        </div>
+    </div>
+    <div class="col-md-6" style="margin-top:20px;">
+        <div class="card">
+            <div class="card-body">
+                <canvas id="pendapatan"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6" style="margin-top:20px;">
+        <div class="card">
+            <div class="card-body">
+                <canvas id="pengeluaran"></canvas>
+            </div>
         </div>
     </div>
     <div class="col-md-6" style="margin-top:10px;">
@@ -46,6 +114,27 @@
         <div class="card">
             <div class="card-body">
                 <canvas id="topminuman"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4" style="margin-top:20px;">
+        <div class="card">
+            <div class="card-body">
+                <canvas id="feedback1"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4" style="margin-top:20px;">
+        <div class="card">
+            <div class="card-body">
+                <canvas id="feedback2"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4" style="margin-top:20px;">
+        <div class="card">
+            <div class="card-body">
+                <canvas id="feedback3"></canvas>
             </div>
         </div>
     </div>

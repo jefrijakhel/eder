@@ -109,17 +109,96 @@ class Manager extends CI_Controller {
                                 ->where('created_at', '>=',$_GET['from'])
                                 ->where('created_at', '<=',$_GET['to'])
                                 ->get();
+            $f1 = Feedback::selectRaw('*, sum(nilai) as nilai,count(*) as dataf,DATE(feedback.created_at) as day')
+                                ->groupBy('day')
+                                ->where('id_pertanyaan', '0')
+                                ->where('created_at', '>=',$_GET['from'])
+                                ->where('created_at', '<=',$_GET['to'])
+                                ->get();
+            $f2 = Feedback::selectRaw('*, sum(nilai) as nilai,count(*) as dataf,DATE(feedback.created_at) as day')
+                                ->groupBy('day')
+                                ->where('id_pertanyaan', '1')
+                                ->where('created_at', '>=',$_GET['from'])
+                                ->where('created_at', '<=',$_GET['to'])
+                                ->get();
+            $f3 = Feedback::selectRaw('*, sum(nilai) as nilai,count(*) as dataf,DATE(feedback.created_at) as day')
+                                ->groupBy('day')
+                                ->where('id_pertanyaan', '2')
+                                ->where('created_at', '>=',$_GET['from'])
+                                ->where('created_at', '<=',$_GET['to'])
+                                ->get();
+            $getPengeluaran = Pengeluaran::selectRaw('*, sum(jumlah) as jumlah,DATE(pengeluaran.created_at) as day')
+                                ->groupBy('day')
+                                ->where('created_at', '>=',$_GET['from'])
+                                ->where('created_at', '<=',$_GET['to'])
+                                ->get();
+                                
+            $getPayment = Payment::selectRaw('*, sum(total) as total,DATE(payment.created_at) as day')
+                                ->groupBy('day')
+                                ->where('created_at', '>=',$_GET['from'])
+                                ->where('created_at', '<=',$_GET['to'])
+                                ->get();
+            
+            $data['ovo'] = Payment::where('metode','ovo')
+                                ->where('created_at', '>=',$_GET['from'])
+                                ->where('created_at', '<=',$_GET['to'])
+                                ->sum('total');
+            $data['cash'] = Payment::where('metode','cash')
+                                ->where('created_at', '>=',$_GET['from'])
+                                ->where('created_at', '<=',$_GET['to'])
+                                ->sum('total');
+            $data['gopay'] = Payment::where('metode','gopay')
+                                ->where('created_at', '>=',$_GET['from'])
+                                ->where('created_at', '<=',$_GET['to'])
+                                ->sum('total');
+            
+            
+            $data['from'] = $_GET['from'];
+            $data['to'] = $_GET['to'];
         }else{
             $getTransaksi = Transaksi::selectRaw('*, sum(qty) as qty,DATE(transaksi.created_at) as day')
                                 ->groupBy('day')
                                 ->get();
+            $getPengeluaran = Pengeluaran::selectRaw('*, sum(jumlah) as jumlah,DATE(pengeluaran.created_at) as day')
+                                ->groupBy('day')
+                                ->get();
+            $getPayment = Payment::selectRaw('*, sum(total) as total,DATE(payment.created_at) as day')
+                                ->groupBy('day')
+                                ->get();
+            $f1 = Feedback::selectRaw('*, sum(nilai) as nilai,count(*) as dataf,DATE(feedback.created_at) as day')
+                                ->groupBy('day')
+                                ->where('id_pertanyaan', '0')
+                                ->get();
+            $f2 = Feedback::selectRaw('*, sum(nilai) as nilai,count(*) as dataf,DATE(feedback.created_at) as day')
+                                ->groupBy('day')
+                                ->where('id_pertanyaan', '1')
+                                ->get();
+            $f3 = Feedback::selectRaw('*, sum(nilai) as nilai,count(*) as dataf,DATE(feedback.created_at) as day')
+                                ->groupBy('day')
+                                ->where('id_pertanyaan', '2')
+                                ->get();
+            $data['ovo'] = Payment::where('metode','ovo')->sum('total');
+            $data['cash'] = Payment::where('metode','cash')->sum('total');
+            $data['gopay'] = Payment::where('metode','gopay')->sum('total');
+            $data['from'] = '';
+            $data['to'] = '';
         }
         $label = '';
         $dataset = '';
+        $labelf1 = '';
+        $datasetf1 = '';
+        $labelf2 = '';
+        $datasetf2 = '';
+        $labelf3 = '';
+        $datasetf3 = '';
         $labelmakanan = '';
         $datasetmakanan = '';
         $labelminuman = '';
         $datasetminuman = '';
+        $labelpendapatan = '';
+        $datasetpendapatan = '';
+        $labelpengeluaran = '';
+        $datasetpengeluaran = '';
         $getTopMakanan = Transaksi::selectRaw('*, sum(qty) as qty')
                                 ->leftJoin('menu', 'transaksi.id_menu','=','menu.id_menu')
                                 ->where('menu.jenis_menu','makanan')
@@ -135,12 +214,50 @@ class Manager extends CI_Controller {
                                 ->limit(10)
                                 ->get();
 
+        foreach($getPayment as $key=>$value){
+            $date = date_create($value->day);
+            $dates = date_format($date,'F j, Y');
+            $labelpendapatan .= "'".$dates."'".",";
+            $datasetpendapatan .= $value->total.',';
+        }
+
+        
+        foreach($getPengeluaran as $key=>$value){
+            $date = date_create($value->day);
+            $dates = date_format($date,'F j, Y');
+            $labelpengeluaran .= "'".$dates."'".",";
+            $datasetpengeluaran .= $value->jumlah.',';
+        }
+
         foreach($getTransaksi as $key=>$value){
             $date = date_create($value->day);
             $dates = date_format($date,'F j, Y');
             $label .= "'".$dates."'".",";
             $dataset .= $value->qty.',';
         }
+        
+        foreach($f1 as $key=>$value){
+            $date = date_create($value->day);
+            $dates = date_format($date,'F j, Y');
+            $labelf1 .= "'".$dates."'".",";
+            $datasetf1 .= $value->nilai/$value->dataf.',';
+        }
+        
+        
+        foreach($f2 as $key=>$value){
+            $date = date_create($value->day);
+            $dates = date_format($date,'F j, Y');
+            $labelf2 .= "'".$dates."'".",";
+            $datasetf2 .= $value->nilai/$value->dataf.',';
+        }
+
+        foreach($f3 as $key=>$value){
+            $date = date_create($value->day);
+            $dates = date_format($date,'F j, Y');
+            $labelf3 .= "'".$dates."'".",";
+            $datasetf3 .= $value->nilai/$value->dataf.',';
+        }
+        
 
         foreach($getTopMakanan as $key=>$value){
             $labelmakanan .= "'".$value->nama_menu."'".",";
@@ -150,17 +267,30 @@ class Manager extends CI_Controller {
             $labelminuman .= "'".$value->nama_menu."'".",";
             $datasetminuman .= $value->qty.',';
         }
-        // var_dump($labelminuman);
-        // return false;
-        $data['ovo'] = Payment::where('metode','ovo')->count();
-        $data['cash'] = Payment::where('metode','cash')->count();
-        $data['gopay'] = Payment::where('metode','gopay')->count();
+        
+        
         $data['label'] = $label;
         $data['dataset'] = $dataset;
+        $data['labelf1'] = $labelf1;
+        $data['datasetf1'] = $datasetf2;
+        $data['labelf2'] = $labelf1;
+        $data['datasetf2'] = $datasetf2;
+        $data['labelf3'] = $labelf3;
+        $data['datasetf3'] = $datasetf3;
+        $data['labelpendapatan'] = $labelpendapatan;
+        $data['datasetpendapatan'] = $datasetpendapatan;
+        $data['labelpengeluaran'] = $labelpengeluaran;
+        $data['datasetpengeluaran'] = $datasetpengeluaran;
         $data['labelmakanan'] = $labelmakanan;
         $data['datasetmakanan'] = $datasetmakanan;
         $data['labelminuman'] = $labelminuman;
         $data['datasetminuman'] = $datasetminuman;
+        $data['penjualan'] = Transaksi::sum('qty');
+        $data['menu'] = Menu::count();
+        $data['karyawan'] = Employee::count();
+        $data['ratingmenu'] = Feedback::where('id_pertanyaan','0')->sum('nilai') / Feedback::where('id_pertanyaan','0')->count();
+        $data['ratingsuasana'] = Feedback::where('id_pertanyaan','1')->sum('nilai') / Feedback::where('id_pertanyaan','0')->count();
+        $data['ratingpelayanan'] = Feedback::where('id_pertanyaan','2')->sum('nilai') / Feedback::where('id_pertanyaan','0')->count();
         $data['sess'] = $this->session->userdata('employee');
 		$data['header']=$this->load->view('templates/home/header',$data, true);
         $data['content']=$this->load->view('manager/dashboard',$data, true);
@@ -175,6 +305,249 @@ class Manager extends CI_Controller {
         $data['pengeluaran'] = Pengeluaran::where('jenis_pengeluaran','penggajian')->get();
 		$data['header']=$this->load->view('templates/home/header',$data, true);
         $data['content']=$this->load->view('manager/gaji',$data, true);
+        $data['footer']=$this->load->view('templates/home/footer',$data, true);
+		$this->load->view('templates/home/index',$data);
+    }
+
+    public function menu()
+    {
+        $data['title'] = 'Selamat Datang';
+        $data['sess'] = $this->session->userdata('employee');
+        $data['menu'] = Menu::get();
+		$data['header']=$this->load->view('templates/home/header',$data, true);
+        $data['content']=$this->load->view('manager/menu',$data, true);
+        $data['footer']=$this->load->view('templates/home/footer',$data, true);
+		$this->load->view('templates/home/index',$data);
+    }
+
+    public function addmenu()
+    {
+        $data['title'] = 'Selamat Datang';
+        $data['header']=$this->load->view('templates/home/header',$data, true);
+        $data['content']=$this->load->view('manager/addmenu',$data, true);
+        $data['footer']=$this->load->view('templates/home/footer',$data, true);
+		$this->load->view('templates/home/index',$data);
+    }
+
+    public function updatemenu($id)
+    {
+        $data['title'] = 'Selamat Datang';
+        $data['sess'] = $this->session->userdata('employee');
+        $data['menu'] = Menu::where('id_menu',$id)->get();
+		$data['header']=$this->load->view('templates/home/header',$data, true);
+        $data['content']=$this->load->view('manager/updatemenu',$data, true);
+        $data['footer']=$this->load->view('templates/home/footer',$data, true);
+		$this->load->view('templates/home/index',$data);
+    }
+
+    public function postmenu()
+    {
+        $data = array(
+            'sub_menu'      => $this->input->post('submenu'),
+            'nama_menu'     => $this->input->post('namamenu'),
+            'deskripsi_menu'      => $this->input->post('deskripsi'),
+            'harga_menu'     => $this->input->post('harga'),
+            'vendor'      => 'Elther',
+            'jenis_menu'     => $this->input->post('jenismenu'),
+            'foto'      => $this->input->post('linkfoto')
+        );
+        $post = Menu::create($data);
+        if($post){
+            redirect(base_url().'manage-menu');
+        }else{
+            echo '<script>alert("Error"); window.location = "'.base_url().'manage-menu/add";</script>';
+        }
+    }
+    
+    public function putmenu()
+    {
+        $data = array(
+            'sub_menu'      => $this->input->post('submenu'),
+            'nama_menu'     => $this->input->post('namamenu'),
+            'deskripsi_menu'      => $this->input->post('deskripsi'),
+            'harga_menu'     => $this->input->post('harga'),
+            'vendor'      => 'Elther',
+            'jenis_menu'     => $this->input->post('jenismenu'),
+            'foto'      => $this->input->post('linkfoto')
+        );
+        $put = Menu::where('id_menu',$this->input->post('idmenu'))->update($data);
+        if($put){
+            redirect(base_url().'manage-menu');
+        }else{
+            echo '<script>alert("Error"); window.location = "'.base_url().'manage-menu/update/'.$this->input->post('idmenu').'";</script>';
+        }
+    }
+
+    public function deletemenu($id)
+    {
+        $delete = Menu::where('id_menu',$id)->delete();
+        if($delete){
+            redirect(base_url().'manage-menu');
+        }else{
+            echo '<script>alert("Error"); window.location = "'.base_url().'manage-menu";</script>';
+        }
+    }
+
+    //meja
+
+    public function meja()
+    {
+        $data['title'] = 'Selamat Datang';
+        $data['sess'] = $this->session->userdata('employee');
+        $data['menu'] = Meja::get();
+		$data['header']=$this->load->view('templates/home/header',$data, true);
+        $data['content']=$this->load->view('manager/meja',$data, true);
+        $data['footer']=$this->load->view('templates/home/footer',$data, true);
+		$this->load->view('templates/home/index',$data);
+    }
+
+    public function addmeja()
+    {
+        $data['title'] = 'Selamat Datang';
+        $data['header']=$this->load->view('templates/home/header',$data, true);
+        $data['content']=$this->load->view('manager/addmeja',$data, true);
+        $data['footer']=$this->load->view('templates/home/footer',$data, true);
+		$this->load->view('templates/home/index',$data);
+    }
+
+    public function updatemeja($id)
+    {
+        $data['title'] = 'Selamat Datang';
+        $data['sess'] = $this->session->userdata('employee');
+        $data['meja'] = Meja::where('id_meja',$id)->get();
+		$data['header']=$this->load->view('templates/home/header',$data, true);
+        $data['content']=$this->load->view('manager/updatemeja',$data, true);
+        $data['footer']=$this->load->view('templates/home/footer',$data, true);
+		$this->load->view('templates/home/index',$data);
+    }
+
+    public function postmeja()
+    {
+        $data = array(
+            'username'      => $this->input->post('username'),
+            'password'     => $this->input->post('password'),
+            'no_meja'      => $this->input->post('nomeja')
+        );
+        $nomeja = array();
+        $meja = Meja::get();
+        foreach($meja as $key=>$value){
+            array_push($nomeja,$value->no_meja);
+        }
+        // var_dump(in_array($this->input->post('nomeja'),$nomeja));
+        // return false;
+        if(!in_array($this->input->post('nomeja'), $nomeja)){
+                $post = Meja::create($data);
+                if($post){
+                    redirect(base_url().'manage-meja');
+                }else{
+                    echo '<script>alert("Error"); window.location = "'.base_url().'manage-meja/add";</script>';
+                }
+        }else{
+            echo '<script>alert("Nomor Meja Sudah Ada"); window.location = "'.base_url().'manage-meja/add/";</script>';
+        }
+    }
+    
+    public function putmeja()
+    {
+        $data = array(
+            'username'      => $this->input->post('username'),
+            'password'     => $this->input->post('password'),
+            'no_meja'      => $this->input->post('nomeja')
+        );
+        $nomeja = array();
+        $meja = Meja::get();
+        foreach($meja as $key=>$value){
+            array_push($nomeja,$value->no_meja);
+        }
+        if(in_array($this->input->post('nomeja'),$nomeja)){
+            $put = Meja::where('id_meja',$this->input->post('idmeja'))->update($data);
+            if($put){
+                redirect(base_url().'manage-meja');
+            }else{
+                echo '<script>alert("Error"); window.location = "'.base_url().'manage-meja/update/'.$this->input->post('idmeja').'";</script>';
+            }
+        }else{
+            echo '<script>alert("Nomor Meja Sudah Ada"); window.location = "'.base_url().'manage-meja/update/'.$this->input->post('idmeja').'";</script>';
+        }
+    }
+
+    public function deletemeja($id)
+    {
+        $delete = Meja::where('id_meja',$id)->delete();
+        if($delete){
+            redirect(base_url().'manage-meja');
+        }else{
+            echo '<script>alert("Error"); window.location = "'.base_url().'manage-meja";</script>';
+        }
+    }
+
+    //end meja
+
+    public function postkaryawan()
+    {
+        $data = array(
+            'nama'      => $this->input->post('namakaryawan'),
+            'posisi'     => $this->input->post('posisi')
+        );
+        $post = Employee::create($data);
+        if($post){
+            redirect(base_url().'manage-karyawan');
+        }else{
+            echo '<script>alert("Error"); window.location = "'.base_url().'manage-karyawan/add";</script>';
+        }
+    }
+    
+    public function putkaryawan()
+    {
+        $data = array(
+            'nama'      => $this->input->post('namakaryawan'),
+            'posisi'     => $this->input->post('posisi')
+        );
+        $put = Employee::where('id_employee',$this->input->post('idkaryawan'))->update($data);
+        if($put){
+            redirect(base_url().'manage-karyawan');
+        }else{
+            echo '<script>alert("Error"); window.location = "'.base_url().'manage-karyawan/update/'.$this->input->post('idkaryawan').'";</script>';
+        }
+    }
+
+    public function deletekaryawan($id)
+    {
+        $delete = Employee::where('id_employee',$id)->delete();
+        if($delete){
+            redirect(base_url().'manage-karyawan');
+        }else{
+            echo '<script>alert("Error"); window.location = "'.base_url().'manage-karyawan";</script>';
+        }
+    }
+
+    public function karyawan()
+    {
+        $data['title'] = 'Selamat Datang';
+        $data['sess'] = $this->session->userdata('employee');
+        $data['employee'] = Employee::get();
+		$data['header']=$this->load->view('templates/home/header',$data, true);
+        $data['content']=$this->load->view('manager/karyawan',$data, true);
+        $data['footer']=$this->load->view('templates/home/footer',$data, true);
+		$this->load->view('templates/home/index',$data);
+    }
+
+    public function addkaryawan()
+    {
+        $data['title'] = 'Selamat Datang';
+        $data['header']=$this->load->view('templates/home/header',$data, true);
+        $data['content']=$this->load->view('manager/addkaryawan',$data, true);
+        $data['footer']=$this->load->view('templates/home/footer',$data, true);
+		$this->load->view('templates/home/index',$data);
+    }
+
+    public function updatekaryawan($id)
+    {
+        $data['title'] = 'Selamat Datang';
+        $data['sess'] = $this->session->userdata('employee');
+        $data['employee'] = Employee::where('id_employee',$id)->get();
+		$data['header']=$this->load->view('templates/home/header',$data, true);
+        $data['content']=$this->load->view('manager/updatekaryawan',$data, true);
         $data['footer']=$this->load->view('templates/home/footer',$data, true);
 		$this->load->view('templates/home/index',$data);
     }
@@ -264,7 +637,15 @@ class Manager extends CI_Controller {
     public function approve($id)
     {
         $update = Belanja::where('id_belanja',$id)->update(['status'=>'disetujui']);
+        $databelanja = Belanja::where('id_belanja',$id)->get();
         if($update == 1){
+            $pengeluaran = array(
+                'jenis_pengeluaran'     => 'belanja',
+                'fk_pengeluaran'        => $id,
+                'deskripsi'             => $databelanja[0]['deskripsi'],
+                'jumlah'                => $databelanja[0]['permintaan_biaya']
+            );
+            Pengeluaran::create($pengeluaran);
             redirect(base_url().'manager/list-belanja');
         }else{
             echo '<script>alert("error"); window.location = "'.base_url().'manager/list-belanja/detail/'.$id.'";</script>';

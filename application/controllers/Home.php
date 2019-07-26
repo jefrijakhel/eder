@@ -293,8 +293,29 @@ class Home extends CI_Controller {
         $id_menu = $this->input->post('id_menu');
         $qty = $this->input->post('qty');
         $notes = $this->input->post('notes');
+        $komposisi = Komposisi::where('id_menu',$id_menu)->get();
+        $checkStock = array();
+        foreach($komposisi as $key=>$value){
+            $stock = Bahanbaku::where('id_bahan_baku',$value->id_bahan_baku)->get();
+            $terpakai = $value->jumlah_bahan_baku * $qty;
+            $stockupdate = $stock[0]['jumlah'] - $terpakai;
+            if($stockupdate > 0){
+                array_push($checkStock,TRUE);
+            }else{
+                array_push($checkStock,FALSE);
+            }
+        }
+        // var_dump($checkStock);
+        // var_dump(in_array(FALSE, $checkStock));
+        // return false;
         if($qty<1){
             echo '<script>alert("jumlah pesanan minimum 1"); window.location = "'.base_url().'home/menu";</script>';
+        }else if(in_array(FALSE, $checkStock) || count($komposisi)==0){
+            if($qty == 1 || count($komposisi)==0){
+                echo '<script>alert("stok menu habis"); window.location = "'.base_url().'home/menu";</script>';
+            }else{
+                echo '<script>alert("stok menu tidak mencapai '.$qty.'"); window.location = "'.base_url().'home/menu";</script>';
+            }
         }else{
             $cek      = Cart::where('meja',$this->session->userdata('meja'))->count();
             $checkCart = Cart::where('meja',$this->session->userdata('meja'))->get();
@@ -339,7 +360,19 @@ class Home extends CI_Controller {
         $id_menu = $this->input->post('id_menu');
         $qty = $this->input->post('qty');
         $notes = $this->input->post('notes');
-        if($qty>0){
+        $komposisi = Komposisi::where('id_menu',$id_menu)->get();
+        $checkStock = array();
+        foreach($komposisi as $key=>$value){
+            $stock = Bahanbaku::where('id_bahan_baku',$value->id_bahan_baku)->get();
+            $terpakai = $value->jumlah_bahan_baku * $qty;
+            $stockupdate = $stock[0]['jumlah'] - $terpakai;
+            if($stockupdate > 0){
+                array_push($checkStock,TRUE);
+            }else{
+                array_push($checkStock,FALSE);
+            }
+        }
+        if($qty>0 && !in_array(FALSE, $checkStock)){
                 $data = array(
                 'qty'       => $qty,
                 'notes'     => $notes
@@ -352,6 +385,8 @@ class Home extends CI_Controller {
             }else{
                 echo '<script>alert("error"); window.location = "'.base_url().'home/cart";</script>';
             }
+        }else if($qty>0 && in_array(FALSE, $checkStock)){
+            echo '<script>alert("stok menu tidak mencapai '.$qty.'"); window.location = "'.base_url().'home/cart";</script>';
         }else if($qty<0){
             echo '<script>alert("jumlah pesanan minimum 1"); window.location = "'.base_url().'home/cart";</script>';
         }else if($qty==0){

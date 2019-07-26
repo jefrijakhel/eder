@@ -68,6 +68,7 @@ $route['checkout'] = 'home/checkout';
 $route['status'] = 'home/status';
 $route['getTransactionMakanan'] = 'dapur/getTransaksiMakanan';
 $route['getTransactionMinuman'] = 'dapur/getTransaksiMinuman';
+$route['getT'] = 'dapur/getT';
 $route['proses-order'] = 'dapur/proses';
 $route['close-order/(:any)'] = 'dapur/close/$1';
 $route['getMeja'] = 'kasir/getMeja';
@@ -105,3 +106,24 @@ $route['submit-feedback'] = 'home/submitfeedback';
 
 $route['manager/feedback']  = 'manager/feedback';
 $route['order-close-auto'] = 'dapur/closeauto';
+
+$route['manage-menu'] = 'manager/menu';
+$route['manage-menu/add'] = 'manager/addmenu';
+$route['manage-menu/update/(:any)'] = 'manager/updatemenu/$1';
+$route['manage-menu/delete/(:any)'] = 'manager/deletemenu/$1';
+$route['manage-menu/post'] = 'manager/postmenu';
+$route['manage-menu/put'] = 'manager/putmenu';
+
+$route['manage-karyawan'] = 'manager/karyawan';
+$route['manage-karyawan/add'] = 'manager/addkaryawan';
+$route['manage-karyawan/update/(:any)'] = 'manager/updatekaryawan/$1';
+$route['manage-karyawan/delete/(:any)'] = 'manager/deletekaryawan/$1';
+$route['manage-karyawan/post'] = 'manager/postkaryawan';
+$route['manage-karyawan/put'] = 'manager/putkaryawan';
+
+$route['manage-meja'] = 'manager/meja';
+$route['manage-meja/add'] = 'manager/addmeja';
+$route['manage-meja/update/(:any)'] = 'manager/updatemeja/$1';
+$route['manage-meja/delete/(:any)'] = 'manager/deletemeja/$1';
+$route['manage-meja/post'] = 'manager/postmeja';
+$route['manage-meja/put'] = 'manager/putmeja';

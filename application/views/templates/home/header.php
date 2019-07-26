@@ -15,11 +15,15 @@
     <link rel="stylesheet" href="https://printjs-4de6.kxcdn.com/print.min.css"> -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <link rel="stylesheet" href="<?=base_url()?>assets/star-rating.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" type="text/css">
     <!-- <link rel="stylesheet" href="<?=base_url()?>assets/bootstrap.css"> -->
     <title><?=$title?></title>
     <style>
       .comic{
         font-family:'COMIC SANS MS'
+      }
+      .hidden{
+        display:none;
       }
       </style>
   </head>

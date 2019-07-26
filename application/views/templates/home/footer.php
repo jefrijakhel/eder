@@ -6,7 +6,16 @@
     <script src="<?=base_url()?>assets/Chart.bundle.min.js"></script>
     <script src="<?=base_url()?>assets/Chart.js"></script>
     <script src="<?=base_url()?>assets/Chart.min.js"></script>
-
+    <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/select/1.2.6/js/dataTables.select.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js" type="text/javascript" ></script>
+    <script>
+            $(document).ready(function() {
+                $('#example').DataTable();
+            } );
+            
+    </script>
+        
     <script>
     // Set the date we're counting down to
     
@@ -64,14 +73,36 @@
         xhr.open('GET', 'http://localhost/project/eder/getTransactionMinuman/', true);
         xhr.send();
       }
+      function view3() {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                document.getElementById('listpesanan').innerHTML = xhr.responseText;
+            }
+        }
+        xhr.open('GET', 'http://localhost/project/eder/getT/', true);
+        xhr.send();
+      }
 
 
       $(document).ready(function(){
         if($('#listpesananmakanan').length){
           setInterval(function() { view() }, 1000);
           setInterval(function() { view2() }, 1000);
+          setInterval(function() { view3() }, 1000);
         }else{
         }
+      });
+
+      $("#jenismenu").change(function() {
+          console.log('change');
+          if($('#jenismenu').val() == 'minuman'){
+            $("#minuman").removeClass("hidden");
+            $("#makanan").addClass("hidden");
+          }else if($('#jenismenu').val() == 'makanan'){
+            $("#makanan").removeClass("hidden");
+            $("#minuman").addClass("hidden");
+          }
       });
 
       function cekMeja() {
@@ -120,10 +151,10 @@
     var myChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: [<?=$label?>],
+            labels: ['0',<?=$label?>],
             datasets: [{
                 label: 'Jumlah Penjualan',
-                data: [<?=$dataset?>],
+                data: [0,<?=$dataset?>],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)'
                 ],
@@ -144,8 +175,148 @@
         }
     });
 
+    var ctxpendapatan = document.getElementById('pendapatan').getContext('2d');
+        var myChartPendapatan = new Chart(ctxpendapatan, {
+            type: 'line',
+            data: {
+                labels: ['0',<?=$labelpendapatan?>],
+                datasets: [{
+                    label: 'Jumlah Pendapatan',
+                    data: [0,<?=$datasetpendapatan?>],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+    });
+
+    var ctxfeedback1 = document.getElementById('feedback1').getContext('2d');
+        var myChartFeedback1 = new Chart(ctxfeedback1, {
+            type: 'line',
+            data: {
+                labels: ['0',<?=$labelf1?>],
+                datasets: [{
+                    label: 'Feedback Menu',
+                    data: [0,<?=$datasetf1?>],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+    });
+
+    var ctxfeedback2 = document.getElementById('feedback2').getContext('2d');
+        var myChartFeedback2 = new Chart(ctxfeedback2, {
+            type: 'line',
+            data: {
+                labels: ['0',<?=$labelf2?>],
+                datasets: [{
+                    label: 'Feedback Suasana',
+                    data: [0,<?=$datasetf2?>],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+    });
+
+    var ctxfeedback3 = document.getElementById('feedback3').getContext('2d');
+        var myChartFeedback3 = new Chart(ctxfeedback3, {
+            type: 'line',
+            data: {
+                labels: ['0',<?=$labelf3?>],
+                datasets: [{
+                    label: 'Feedback Pelayanan',
+                    data: [0,<?=$datasetf3?>],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+    });
+
+    var ctxpengeluaran = document.getElementById('pengeluaran').getContext('2d');
+        var myChartPengeluaran = new Chart(ctxpengeluaran, {
+            type: 'line',
+            data: {
+                labels: ['0',<?=$labelpengeluaran?>],
+                datasets: [{
+                    label: 'Jumlah Pengeluaran',
+                    data: [0,<?=$datasetpengeluaran?>],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+    });
+
     var ctxMakanan = document.getElementById('topmakanan').getContext('2d');
-    var myChartakanan = new Chart(ctxMakanan, {
+    var myChartMakanan = new Chart(ctxMakanan, {
         type: 'bar',
         data: {
             labels: [<?=$labelmakanan?>],

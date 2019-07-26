@@ -15,4 +15,21 @@
     <div id="listpesananminuman"></div>
     </div>
     </div>
+    <br>
+    <br>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+            <th scope="col">#</th>
+            <th scope="col">Menu</th>
+            <th scope="col">Notes</th>
+            <th scope="col">Meja</th>
+            <th scope="col">Jumlah</th>
+            <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody id="listpesanan">
+            
+        </tbody>
+    </table>
 </div>

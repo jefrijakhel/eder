@@ -8,7 +8,7 @@ class Dapur extends CI_Controller {
         parent::__construct();
         $this->load->helper('url');
         $this->load->library('session');
-        $this->load->model(array('User','Menu','Bahanbaku','Cart','Komposisi','Meja','Menu','Transaksi','Belanja','Detailbelanja'));
+        $this->load->model(array('User','Menu','Bahanbaku','Cart','Komposisi','Meja','Menu','Transaksi','Belanja','Detailbelanja','Pengeluaran'));
         if(!isset($_SESSION['emloggedin'])){
             echo '<script>alert("Authentication required"); window.location = "'.base_url().'employee";</script>';
         }else if($this->session->userdata('employee')['privillege']!='dapur'){
@@ -28,7 +28,7 @@ class Dapur extends CI_Controller {
     public function listpesanan()
 	{
         $data['title'] = 'Selamat Datang';
-		$data['header']=$this->load->view('templates/home/header',$data, true);
+        $data['header']=$this->load->view('templates/home/header',$data, true);
         $data['content']=$this->load->view('dapur/listpesanan',$data, true);
         $data['footer']=$this->load->view('templates/home/footer',$data, true);
 		$this->load->view('templates/home/index',$data);
@@ -66,6 +66,27 @@ class Dapur extends CI_Controller {
         $data['content']=$this->load->view('dapur/detailbelanja',$data, true);
         $data['footer']=$this->load->view('templates/home/footer',$data, true);
 		$this->load->view('templates/home/index',$data);
+    }
+
+    public function getT()
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        $transaksi = Transaksi::whereDate('created_at','=',date('Y-m-d'))->orderBy('created_at','ASC')->get();
+        $returntransaksi = '';
+        $no=1;
+        foreach($transaksi as $key=>$value){
+            $menu = Menu::where('id_menu',$value->id_menu)->get();
+            
+            $returntransaksi .= '<tr>';
+            $returntransaksi .= '<th scope="row">'.$no.'</th>';
+            $returntransaksi .= '<td>'.$menu[0]['nama_menu'].'</td>';
+            $returntransaksi .= '<td>'.$value->notes.'</td>';
+            $returntransaksi .= '<td>'.$value->meja.'</td>';
+            $returntransaksi .= '<td>'.$value->qty.'</td>';
+            $returntransaksi .= '<td>'.$value->status.'</td>';
+            $returntransaksi .= '</tr>';
+        }
+        echo $returntransaksi;
     }
 
     public function getTransaksiMakanan()
@@ -168,6 +189,14 @@ class Dapur extends CI_Controller {
                 echo 'Tambahkan 10 menit: '.date_format($date, 'Y-m-d H:i:s').'<br/><br/>';
                 $data = array('status'=>'diproses','estimated_time'=>date_format($date, 'Y-m-d H:i:s'),'updated_at'=>date_format($date, 'Y-m-d H:i:s'));
                 $update = Transaksi::where('id_transaksi',$id_transaksi)->update($data);
+                $dataTransaksi = Transaksi::where('id_transaksi',$id_transaksi)->get();
+                $komposisi = Komposisi::where('id_menu',$dataTransaksi[0]['id_menu'])->get();
+                foreach($komposisi as $key=>$value){
+                    $stock = Bahanbaku::where('id_bahan_baku',$value->id_bahan_baku)->get();
+                    $terpakai = $value->jumlah_bahan_baku * $dataTransaksi[0]['qty'];
+                    $stockupdate = $stock[0]['jumlah'] - $terpakai;
+                    Bahanbaku::where('id_bahan_baku',$value->id_bahan_baku)->update(['jumlah'=>$stockupdate]); 
+                }
                 redirect(base_url().'dapur/list-pesanan');
             }
         }else{
@@ -228,7 +257,7 @@ class Dapur extends CI_Controller {
         // return false;
         
         $p = Belanja::where('id_belanja',$this->input->post('idbelanja'))->update(['biaya_fix'=>$totalharga]);
-
+        Pengeluaran::where('fk_pengeluaran',$this->input->post('idbelanja'))->update(['jumlah'=>$totalharga]);
         if($p == 1){
             redirect(base_url().'dapur/belanja');
         }else{

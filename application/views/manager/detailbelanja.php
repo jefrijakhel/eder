@@ -12,7 +12,8 @@
                     <tr>
                     <th scope="col">No</th>
                     <th scope="col">Bahan Baku</th>
-                    <th scope="col">Jumlah</th>
+                    <th scope="col">Stock Saat ini</th>
+                    <th scope="col">Jumlah Belanja</th>
                     <th scope="col">Satuan</th>
                     <th scope="col">Harga Kisaran</th>
                     <th scope="col">Harga Fix</th>
@@ -27,6 +28,7 @@
                     <tr>
                     <th scope="row"><?=$no?></th>
                     <td><?=$bahanbaku[0]['nama_bahan_baku']?></td>
+                    <td><?=$bahanbaku[0]['jumlah']?></td>
                     <td><?=$value->jumlah?></td>
                     <td><?=$bahanbaku[0]['satuan']?></td>
                     <td>Rp. <?=number_format($value->harga_kisaran,0)?></td>
@@ -37,7 +39,11 @@
                         endforeach;?>
                 </tbody>
             </table>
+            <?php 
+            $b = Belanja::where('id_belanja',$value->id_belanja)->get();
+            if($b[0]['status']!='disetujui'){?>
             <button class="btn btn-primary" onclick="window.location='<?=base_url()?>manager/approvebelanja/<?=$idbelanja?>'" style="float:right">Setujui</button>
+            <?php } ?>
         </div>
     <table>                    
 </div>
