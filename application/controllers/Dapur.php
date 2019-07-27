@@ -249,6 +249,12 @@ class Dapur extends CI_Controller {
         $jumlahbahanbaku = count($this->input->post('id_detail_belanja'));
         $totalharga = 0;
         for($i=0;$i<$jumlahbahanbaku;$i++){
+            $check = Detailbelanja::where('id_detail_belanja',$this->input->post('id_detail_belanja')[$i])->get();
+            if($check[0]['harga_fix']=='' || $check[0]['harga_fix']==NULL || $check[0]['harga_fix']== 0){
+                $bb = Bahanbaku::where('id_bahan_baku',$check[0]['id_bahan_baku'])->get();
+                $jumlah = $bb[0]['jumlah'] + $check[0]['jumlah'];
+                Bahanbaku::where('id_bahan_baku',$check[0]['id_bahan_baku'])->update(['jumlah'=>$jumlah]);
+            }
             Detailbelanja::where('id_detail_belanja',$this->input->post('id_detail_belanja')[$i])->update(['harga_fix'=>$this->input->post('hargafix')[$i]]);
             $totalharga += $this->input->post('hargafix')[$i]*$this->input->post('jumlah')[$i];
         }
