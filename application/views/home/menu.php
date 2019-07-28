@@ -55,8 +55,11 @@
                                 </div>
                             </div>
                             <?php endforeach;?>
-                            <h6>Makanan Lengkap</h6>
-                            <?php foreach($makanan as $key=>$value): ?>
+                            <?php foreach($submakanan as $key=>$value): ?>
+                            <h6><?=$value->nama_submenu?></h6>
+                            <?php 
+                            $makanan = Menu::where('sub_menu',$value->id_submenu)->get();
+                            foreach($makanan as $key=>$value): ?>
                             <div class="col-md-12 col-sm-12" style="background-color:#fff; border-radius:10px;margin-bottom:5px;padding-left:5px;">
                                 <div class="row">
                                     <div class="col-md-2 col-sm-2 col-4" style="padding-top:5px;padding-bottom:5px;">
@@ -81,7 +84,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <?php endforeach;?>
+                            <?php endforeach;
+                        endforeach;?>
                         </div>
                     </div>
                     <div class="tab-pane fade" id="minuman" role="tabpanel" aria-labelledby="minuman-tab">
@@ -113,8 +117,11 @@
                                 </div>
                             </div>
                             <?php endforeach;?>
-                            <h6>Minuman Lengkap</h6>
-                            <?php foreach($minuman as $key=>$value): ?>
+                            <?php foreach($subminuman as $key=>$value): ?>
+                            <h6><?=$value->nama_submenu?></h6>
+                            <?php 
+                            $minuman = Menu::where('sub_menu',$value->id_submenu)->get();
+                            foreach($minuman as $key=>$value): ?>
                             <div class="col-md-12 col-sm-12" style="background-color:#fff; border-radius:10px;margin-bottom:5px;padding-left:5px;">
                                 <div class="row">
                                     <div class="col-md-2 col-sm-2 col-4" style="padding-top:5px;padding-bottom:5px;">
@@ -139,7 +146,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <?php endforeach;?>
+                            <?php endforeach;
+                            endforeach;?>
                         </div>
                     </div>
                 </div>

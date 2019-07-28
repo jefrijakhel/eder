@@ -12,6 +12,7 @@
                 <tr>
                 <th scope="col">No</th>
                 <th scope="col">Nama</th>
+                <th scope="col">Sub Menu</th>
                 <th scope="col">Deskripsi</th>
                 <th scope="col">Jenis</th>
                 <th scope="col">Harga</th>
@@ -19,10 +20,13 @@
                 </tr>
             </thead>
             <tbody>
-            <?php $no=1;foreach($menu as $key=>$value): ?>
+            <?php $no=1;foreach($menu as $key=>$value): 
+                $submenu = Submenu::where('id_submenu',$value->sub_menu)->get();
+                ?>
                 <tr>
                 <th scope="row"><?=$no?></th>
                 <td><?=$value->nama_menu?></td>
+                <td><?=$submenu[0]['nama_submenu']?></td>
                 <td><?=$value->deskripsi_menu?></td>
                 <td><?=$value->jenis_menu?></td>
                 <td>Rp. <?=number_format($value->harga_menu,0)?></td>

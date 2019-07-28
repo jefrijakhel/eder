@@ -95,13 +95,21 @@
       });
 
       $("#jenismenu").change(function() {
+        var subminuman = '';
+      var submakanan = '';
+      if($('#linkfoto').length){
+          subminuman = '<?=$submi?>';
+          submakanan = '<?=$subma?>';
+        }else{
+            console.log('yy');
+        }
+
+      
           console.log('change');
           if($('#jenismenu').val() == 'minuman'){
-            $("#minuman").removeClass("hidden");
-            $("#makanan").addClass("hidden");
+            $("#submenu").html(subminuman);
           }else if($('#jenismenu').val() == 'makanan'){
-            $("#makanan").removeClass("hidden");
-            $("#minuman").addClass("hidden");
+            $("#submenu").html(submakanan);
           }
       });
 

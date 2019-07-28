@@ -18,22 +18,8 @@
         <div class="form-group row">
             <label for="subMenu" class="col-sm-2 col-form-label">Sub Menu</label>
             <div class="col-sm-10">
-            <select class="form-control hidden" name="submenu" id="minuman">
-                <option value="hot coffee">Hot Coffee</option>
-                <option value="ice coffee">Ice Coffee</option>
-                <option value="beverages">Beverages</option>
-                <option value="tea">Tea</option>
-                <option value="air mineral">Air Mineral</option>
-                <option value="mojito">Mojito</option>
-                <option value="juice">Juice</option>
-                <option value="milkshake">Milkshake</option>
-            </select>
-
-            <select class="form-control" name="submenu" id="makanan">
-                <option value="rice bowl">Rice Bowl</option>
-                <option value="main course">Main Course</option>
-                <option value="noodle">Noodle</option>
-                <option value="steak">Steak</option>
+            <select class="form-control" name="submenu" id="submenu">
+                <?=$subma?>
             </select>
             </div>
         </div>
@@ -52,7 +38,7 @@
         <div class="form-group row">
             <label for="linkfoto" class="col-sm-2 col-form-label">Link Foto</label>
             <div class="col-sm-10">
-            <input type="text" class="form-control" name="linkfoto" id="linkfoto" placeholder="http:// or https://">
+            <input type="text" class="form-control" id="linkfoto" name="linkfoto" id="linkfoto" placeholder="http:// or https://">
             </div>
         </div>
         <div class="form-group row">

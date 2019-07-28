@@ -8,7 +8,7 @@ class Home extends CI_Controller {
         parent::__construct();
         $this->load->helper('url');
         $this->load->library('session');
-        $this->load->model(array('Menu','Bahanbaku','Cart','Komposisi','Meja','Menu','Transaksi','Payment','Feedback'));
+        $this->load->model(array('Menu','Bahanbaku','Submenu','Cart','Komposisi','Meja','Menu','Transaksi','Payment','Feedback'));
         
     }
 	public function index()
@@ -125,9 +125,11 @@ class Home extends CI_Controller {
         $data['email']          = $sessMeja['email'];
         $data['no_hp']          = $sessMeja['no_hp'];
         $data['title']          = 'Pilih Menu';
-        $data['makanan']        = Menu::where('jenis_menu','makanan')->get();
-        $data['minuman']        = Menu::where('jenis_menu','minuman')->get();
-        $data['countcart']      = Cart::where('meja',$this->session->userdata('meja'))->count(); 
+        // $data['makanan']        = Menu::where('jenis_menu','makanan')->get();
+        // $data['minuman']        = Menu::where('jenis_menu','minuman')->get();
+        $data['countcart']      = Cart::where('meja',$this->session->userdata('meja'))->count();
+        $data['submakanan']     = Submenu::where('jenis_menu','makanan')->get();
+        $data['subminuman']     = Submenu::where('jenis_menu','minuman')->get();
         $data['topma'] = Transaksi::selectRaw('*, sum(qty) as qty')
                                 ->leftJoin('menu', 'transaksi.id_menu','=','menu.id_menu')
                                 ->where('menu.jenis_menu','makanan')

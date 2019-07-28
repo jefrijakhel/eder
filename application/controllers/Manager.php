@@ -8,7 +8,7 @@ class Manager extends CI_Controller {
         parent::__construct();
         $this->load->helper('url');
         $this->load->library('session');
-        $this->load->model(array('User','Menu','Payment','Bahanbaku','Cart','Komposisi','Meja','Transaksi','Employee','Posisi','Pengeluaran','Detailpenggajian','Belanja','Detailbelanja','Feedback'));
+        $this->load->model(array('User','Menu','Submenu','Payment','Bahanbaku','Cart','Komposisi','Meja','Transaksi','Employee','Posisi','Pengeluaran','Detailpenggajian','Belanja','Detailbelanja','Feedback'));
         if(!isset($_SESSION['emloggedin'])){
             echo '<script>alert("Authentication required"); window.location = "'.base_url().'employee";</script>';
         }else if($this->session->userdata('employee')['privillege']!='manager'){
@@ -322,7 +322,19 @@ class Manager extends CI_Controller {
 
     public function addmenu()
     {
-        $data['title'] = 'Selamat Datang';
+        $subminuman = Submenu::where('jenis_menu','minuman')->get();
+        $submi = '';
+        foreach($subminuman as $key=>$value){
+            $submi .= '<option value="'.$value->id_submenu.'">'.$value->nama_submenu.'</option>';
+        }
+        $submakanan = Submenu::where('jenis_menu','makanan')->get();
+        $subma = '';
+        foreach($submakanan as $key=>$value){
+            $subma .= '<option value="'.$value->id_submenu.'">'.$value->nama_submenu.'</option>';
+        }
+        $data['submi'] = $submi;
+		$data['subma'] = $subma;
+		$data['title'] = 'Selamat Datang';
         $data['header']=$this->load->view('templates/home/header',$data, true);
         $data['content']=$this->load->view('manager/addmenu',$data, true);
         $data['footer']=$this->load->view('templates/home/footer',$data, true);
@@ -331,10 +343,22 @@ class Manager extends CI_Controller {
 
     public function updatemenu($id)
     {
-        $data['title'] = 'Selamat Datang';
+        $subminuman = Submenu::where('jenis_menu','minuman')->get();
+        $submi = '';
+        foreach($subminuman as $key=>$value){
+            $submi .= '<option value="'.$value->id_submenu.'">'.$value->nama_submenu.'</option>';
+        }
+        $submakanan = Submenu::where('jenis_menu','makanan')->get();
+        $subma = '';
+        foreach($submakanan as $key=>$value){
+            $subma .= '<option value="'.$value->id_submenu.'">'.$value->nama_submenu.'</option>';
+        }
+        $data['submi'] = $submi;
+		$data['subma'] = $subma;
+		$data['title'] = 'Selamat Datang';
         $data['sess'] = $this->session->userdata('employee');
         $data['menu'] = Menu::where('id_menu',$id)->get();
-		$data['header']=$this->load->view('templates/home/header',$data, true);
+        $data['header']=$this->load->view('templates/home/header',$data, true);
         $data['content']=$this->load->view('manager/updatemenu',$data, true);
         $data['footer']=$this->load->view('templates/home/footer',$data, true);
 		$this->load->view('templates/home/index',$data);
@@ -371,6 +395,8 @@ class Manager extends CI_Controller {
             'foto'      => $this->input->post('linkfoto')
         );
         $put = Menu::where('id_menu',$this->input->post('idmenu'))->update($data);
+        // var_dump($data);
+        // return false;
         if($put){
             redirect(base_url().'manage-menu');
         }else{
