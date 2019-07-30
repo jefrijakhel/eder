@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 24 Jul 2019 pada 07.08
+-- Waktu pembuatan: 28 Jul 2019 pada 17.06
 -- Versi server: 10.1.32-MariaDB
 -- Versi PHP: 7.2.5
 
@@ -43,7 +43,9 @@ CREATE TABLE `bahan_baku` (
 
 INSERT INTO `bahan_baku` (`id_bahan_baku`, `nama_bahan_baku`, `jumlah`, `satuan`, `created_at`, `deleted_at`) VALUES
 (1, 'Cabe Merah', 1000, 'ons', '2019-07-21 16:11:20', '2019-07-21 16:11:20'),
-(2, 'Daging', 20, 'kilogram', '2019-07-21 16:26:25', '2019-07-21 16:26:25');
+(2, 'Daging', 20, 'kilogram', '2019-07-21 16:26:25', '2019-07-21 16:26:25'),
+(3, 'Kopi', 20, 'gram', '2019-07-25 19:16:39', '2019-07-25 19:16:39'),
+(4, 'Gula', 20, 'gram', '2019-07-25 19:17:05', '2019-07-25 19:17:05');
 
 -- --------------------------------------------------------
 
@@ -66,7 +68,7 @@ CREATE TABLE `belanja` (
 --
 
 INSERT INTO `belanja` (`id_belanja`, `deskripsi`, `permintaan_biaya`, `biaya_fix`, `status`, `created_at`, `updated_at`) VALUES
-(7, 'Belanja Mingguan', 800000, 600000, 'disetujui', '2019-07-21 16:53:00', '2019-07-21 16:53:00');
+(7, 'Belanja Mingguan', 800000, 760000, 'disetujui', '2019-07-21 16:53:00', '2019-07-21 16:53:00');
 
 -- --------------------------------------------------------
 
@@ -106,7 +108,7 @@ CREATE TABLE `detail_belanja` (
 --
 
 INSERT INTO `detail_belanja` (`id_detail_belanja`, `id_belanja`, `id_bahan_baku`, `jumlah`, `harga_kisaran`, `harga_fix`, `created_at`, `updated_at`) VALUES
-(0, 7, 2, 10, 800000, 60000, '2019-07-21 16:53:00', '2019-07-21 16:53:00');
+(1, 7, 2, 10, 800000, 76000, '2019-07-21 16:53:00', '2019-07-21 16:53:00');
 
 -- --------------------------------------------------------
 
@@ -187,16 +189,16 @@ INSERT INTO `feedback` (`id_feedback`, `id_pertanyaan`, `pertanyaan`, `nilai`, `
 (4, 3, 'Komentar', 'Pelayanan oke', '2019-07-23 21:30:15', '2019-07-23 21:30:15'),
 (5, 0, 'Bagaimana makanan di Kafe Elther?', '5', '2019-07-23 23:35:46', '2019-07-23 23:35:46'),
 (6, 1, 'Bagaimana suasana di Kafe Elther?', '5', '2019-07-23 23:35:46', '2019-07-23 23:35:46'),
-(7, 2, 'Bagaimana pelayanan di Kafe Elther?', '4', '2019-07-23 23:35:46', '2019-07-23 23:35:46'),
+(7, 2, 'Bagaimana pelayanan di Kafe Elther?', '3', '2019-07-23 23:35:46', '2019-07-23 23:35:46'),
 (8, 3, 'Komentar', 'Enaaak', '2019-07-23 23:35:46', '2019-07-23 23:35:46');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `kompopsisi`
+-- Struktur dari tabel `komposisi`
 --
 
-CREATE TABLE `kompopsisi` (
+CREATE TABLE `komposisi` (
   `id_komposisi` int(11) NOT NULL,
   `id_bahan_baku` int(11) NOT NULL,
   `id_menu` int(11) NOT NULL,
@@ -204,6 +206,14 @@ CREATE TABLE `kompopsisi` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `komposisi`
+--
+
+INSERT INTO `komposisi` (`id_komposisi`, `id_bahan_baku`, `id_menu`, `jumlah_bahan_baku`, `created_at`, `deleted_at`) VALUES
+(1, 3, 1, 10, '2019-07-25 19:17:35', '2019-07-25 19:17:35'),
+(2, 4, 1, 10, '2019-07-25 19:17:53', '2019-07-25 19:17:53');
 
 -- --------------------------------------------------------
 
@@ -230,7 +240,7 @@ CREATE TABLE `meja` (
 --
 
 INSERT INTO `meja` (`id_meja`, `username`, `password`, `no_meja`, `status`, `nama_customer`, `email`, `no_hp`, `active_transaction`, `created_at`, `updated_at`) VALUES
-(1, 'meja1', '+meja1', '1', 1, 'Bambang', 'bambang@gmail.com', '1082801209', 'pA0wV6Esi68UimHh6ed8h0vcu41N1a', '2019-07-01 20:40:48', '2019-07-01 20:40:48'),
+(1, 'meja1', '+meja1', '1', 0, 'Bejo', 'bejo@bejo.com', '12901029', 'sKm5I4aJe8VFgHSWDyclpHPePGKQdl', '2019-07-01 20:40:48', '2019-07-01 20:40:48'),
 (2, 'meja2', '+meja2', '2', 0, '', '', '', '', '2019-07-07 17:00:00', '2019-07-07 17:00:00'),
 (3, 'meja3', '+meja3', '3', 0, '', '', '', '', '2019-07-07 18:19:47', '2019-07-07 18:19:47'),
 (4, 'meja4', '+meja4', '4', 0, NULL, NULL, NULL, '', '2019-07-07 18:21:24', '2019-07-07 18:21:24'),
@@ -265,19 +275,21 @@ CREATE TABLE `menu` (
 --
 
 INSERT INTO `menu` (`id_menu`, `sub_menu`, `nama_menu`, `deskripsi_menu`, `jenis_menu`, `harga_menu`, `vendor`, `foto`, `created_at`, `updated_at`) VALUES
-(1, 'hot coffee', 'Kopi Tubruk', '-', 'minuman', 15000, 'elther', 'https://awsimages.detik.net.id/community/media/visual/2018/09/28/abb364fb-a7c3-4851-977a-f270ced32c62.jpeg', '2019-07-01 20:05:39', '2019-07-01 20:05:39'),
-(2, 'hot coffee', 'Americano', '-', 'minuman', 20000, 'elther', '', '2019-07-01 20:07:43', '2019-07-01 20:07:43'),
-(3, 'hot coffee', 'Espresso', '-', 'minuman', 15000, 'Elther', '', '2019-07-21 19:28:54', '2019-07-21 19:28:54'),
-(4, 'ice coffee', 'Milk Americano', '-', 'minuman', 25000, 'elther', '', '2019-07-01 20:05:39', '2019-07-01 20:05:39'),
-(5, 'hot coffee', 'Black Vietnam', '-', 'minuman', 20000, 'elther', '', '2019-07-01 20:07:43', '2019-07-01 20:07:43'),
-(6, 'hot coffee', 'Mokapot', '-', 'minuman', 25000, 'Elther', '', '2019-07-21 19:28:54', '2019-07-21 19:28:54'),
-(7, 'ice coffee', 'v60', '-', 'minuman', 25000, 'elther', '', '2019-07-01 20:05:39', '2019-07-01 20:05:39'),
-(8, 'hot coffee', 'Milk Vietnam', '-', 'minuman', 25000, 'elther', '', '2019-07-01 20:07:43', '2019-07-01 20:07:43'),
-(9, 'hot coffee', 'Long Black', '-', 'minuman', 20000, 'Elther', '', '2019-07-21 19:28:54', '2019-07-21 19:28:54'),
-(10, 'ice coffee', 'Cappucino', '-', 'minuman', 27000, 'elther', '', '2019-07-01 20:05:39', '2019-07-01 20:05:39'),
-(11, 'hot coffee', 'Latte', '-', 'minuman', 27000, 'elther', '', '2019-07-01 20:07:43', '2019-07-01 20:07:43'),
-(12, 'hot coffee', 'Espresso', '-', 'minuman', 15000, 'Elther', '', '2019-07-21 19:28:54', '2019-07-21 19:28:54'),
-(14, 'hot coffee', 'Bowl 1', 'Chicken Popcorn Scramble egg, Vegie', 'makanan', 25000, 'elther', '', '2019-07-01 20:07:43', '2019-07-01 20:07:43');
+(1, '1', 'Kopi Tubruk', '-', 'minuman', 15000, 'Elther', 'https://awsimages.detik.net.id/community/media/visual/2018/09/28/abb364fb-a7c3-4851-977a-f270ced32c62.jpeg', '2019-07-01 20:05:39', '2019-07-01 20:05:39'),
+(2, '1', 'Americano', '-', 'minuman', 20000, 'elther', '', '2019-07-01 20:07:43', '2019-07-01 20:07:43'),
+(3, '1', 'Espresso', '-', 'minuman', 15000, 'Elther', '', '2019-07-21 19:28:54', '2019-07-21 19:28:54'),
+(4, '3', 'Milk Americano', '-', 'minuman', 25000, 'elther', '', '2019-07-01 20:05:39', '2019-07-01 20:05:39'),
+(5, '1', 'Black Vietnam', '-', 'minuman', 20000, 'elther', '', '2019-07-01 20:07:43', '2019-07-01 20:07:43'),
+(6, '1', 'Mokapot', '-', 'minuman', 25000, 'Elther', '', '2019-07-21 19:28:54', '2019-07-21 19:28:54'),
+(7, '3', 'v60', '-', 'minuman', 25000, 'elther', '', '2019-07-01 20:05:39', '2019-07-01 20:05:39'),
+(8, '1', 'Milk Vietnam', '-', 'minuman', 25000, 'elther', '', '2019-07-01 20:07:43', '2019-07-01 20:07:43'),
+(9, '1', 'Long Black', '-', 'minuman', 20000, 'Elther', '', '2019-07-21 19:28:54', '2019-07-21 19:28:54'),
+(10, '3', 'Cappucino', '-', 'minuman', 27000, 'elther', '', '2019-07-01 20:05:39', '2019-07-01 20:05:39'),
+(11, '1', 'Latte', '-', 'minuman', 27000, 'elther', '', '2019-07-01 20:07:43', '2019-07-01 20:07:43'),
+(12, '1', 'Espresso', '-', 'minuman', 15000, 'Elther', '', '2019-07-21 19:28:54', '2019-07-21 19:28:54'),
+(14, '2', 'Bowl 1', 'Chicken Popcorn Scramble egg, Vegie', 'makanan', 25000, 'elther', '', '2019-07-01 20:07:43', '2019-07-01 20:07:43'),
+(15, '3', 'Creamy Latte', '-', 'minuman', 15000, 'Elther', '', '2019-07-28 14:12:40', '2019-07-28 14:12:40'),
+(16, '1', 'Mocha', '-', 'minuman', 18000, 'Elther', '', '2019-07-28 15:03:42', '2019-07-28 15:03:42');
 
 -- --------------------------------------------------------
 
@@ -307,7 +319,8 @@ INSERT INTO `payment` (`id_payment`, `id_transaksi`, `total`, `meja`, `metode`, 
 (5, 'TSnuxnuwbrJOHkIkqNOJVsQ8DAYQU', 0, 1, 'cash', 'gigih', '2019-07-14 07:28:32', '2019-07-14 07:28:32'),
 (6, 'Tb6wP2MElIOblQjhbKhv995KeJAYD4', 25000, 1, 'ovo', 'dudung', '2019-07-14 07:30:58', '2019-07-14 07:30:58'),
 (7, 'qlxX09qF9u3GnnLGWdYavrjQA6OdDZ', 50000, 1, 'cash', 'Duds', '2019-07-21 18:12:25', '2019-07-21 18:12:25'),
-(8, 'pA0wV6Esi68UimHh6ed8h0vcu41N1a', 85000, 1, 'cash', 'Bambang', '2019-07-23 23:09:45', '2019-07-23 23:09:45');
+(8, 'pA0wV6Esi68UimHh6ed8h0vcu41N1a', 85000, 1, 'cash', 'Bambang', '2019-07-23 23:09:45', '2019-07-23 23:09:45'),
+(9, 'pA0wV6Esi68UimHh6ed8h0vcu41N1a', 55000, 1, 'cash', 'Bambang', '2019-07-24 19:49:51', '2019-07-24 19:49:51');
 
 -- --------------------------------------------------------
 
@@ -318,6 +331,7 @@ INSERT INTO `payment` (`id_payment`, `id_transaksi`, `total`, `meja`, `metode`, 
 CREATE TABLE `pengeluaran` (
   `id_pengeluaran` int(11) NOT NULL,
   `jenis_pengeluaran` varchar(50) NOT NULL,
+  `fk_pengeluaran` int(11) NOT NULL,
   `deskripsi` text NOT NULL,
   `jumlah` bigint(20) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -328,8 +342,9 @@ CREATE TABLE `pengeluaran` (
 -- Dumping data untuk tabel `pengeluaran`
 --
 
-INSERT INTO `pengeluaran` (`id_pengeluaran`, `jenis_pengeluaran`, `deskripsi`, `jumlah`, `created_at`, `updated_at`) VALUES
-(2, 'penggajian', 'Penggajian untuk bulan 10', 13700000, '2019-07-21 11:11:35', '2019-07-21 11:11:35');
+INSERT INTO `pengeluaran` (`id_pengeluaran`, `jenis_pengeluaran`, `fk_pengeluaran`, `deskripsi`, `jumlah`, `created_at`, `updated_at`) VALUES
+(2, 'penggajian', 0, 'Penggajian untuk bulan 10', 13700000, '2019-07-21 11:11:35', '2019-07-21 11:11:35'),
+(4, 'belanja', 7, 'Belanja Mingguan', 760000, '2019-07-25 22:21:50', '2019-07-25 22:21:50');
 
 -- --------------------------------------------------------
 
@@ -353,6 +368,29 @@ INSERT INTO `posisi` (`id_posisi`, `nama_posisi`, `gaji`, `craeted_at`, `updated
 (1, 'dapur', 3000000, '2019-07-21 06:42:18', '2019-07-21 06:42:18'),
 (2, 'kasir', 3000000, '2019-07-21 06:42:33', '2019-07-21 06:42:33'),
 (3, 'pelayan', 2500000, '2019-07-21 06:43:03', '2019-07-21 06:43:03');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `submenu`
+--
+
+CREATE TABLE `submenu` (
+  `id_submenu` int(11) NOT NULL,
+  `nama_submenu` varchar(100) NOT NULL,
+  `jenis_menu` varchar(50) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `submenu`
+--
+
+INSERT INTO `submenu` (`id_submenu`, `nama_submenu`, `jenis_menu`, `created_at`, `updated_at`) VALUES
+(1, 'Hot Coffee', 'minuman', '2019-07-28 13:44:08', '2019-07-28 13:44:08'),
+(2, 'Rice Bowl', 'makanan', '2019-07-28 13:44:08', '2019-07-28 13:44:08'),
+(3, 'Ice Coffee', 'minuman', '2019-07-28 13:51:59', '2019-07-28 13:51:59');
 
 -- --------------------------------------------------------
 
@@ -392,7 +430,14 @@ INSERT INTO `transaksi` (`id_transaksi`, `transaksi_fk`, `meja`, `id_menu`, `qty
 (11, 'pA0wV6Esi68UimHh6ed8h0vcu41N1a', 1, 1, 1, '', 'Bambang', 'bambang@gmail.com', '1082801209', 'close', NULL, '2019-07-23 09:49:05', '2019-07-23 09:49:05'),
 (12, 'pA0wV6Esi68UimHh6ed8h0vcu41N1a', 1, 1, 1, '', 'Bambang', 'bambang@gmail.com', '1082801209', 'close', '2019-07-23 10:12:48', '2019-07-23 09:49:43', '2019-07-23 10:12:48'),
 (13, 'pA0wV6Esi68UimHh6ed8h0vcu41N1a', 1, 14, 1, '', 'Bambang', 'bambang@gmail.com', '1082801209', 'close', NULL, '2019-07-23 09:54:23', '2019-07-23 09:54:23'),
-(14, 'pA0wV6Esi68UimHh6ed8h0vcu41N1a', 1, 1, 2, 'gula 2 sendok', 'Bambang', 'bambang@gmail.com', '1082801209', 'close', NULL, '2019-07-23 22:23:16', '2019-07-23 22:23:16');
+(14, 'pA0wV6Esi68UimHh6ed8h0vcu41N1a', 1, 1, 2, 'gula 2 sendok', 'Bambang', 'bambang@gmail.com', '1082801209', 'close', NULL, '2019-07-23 22:23:16', '2019-07-23 22:23:16'),
+(15, 'pA0wV6Esi68UimHh6ed8h0vcu41N1a', 1, 1, 1, '', 'Bambang', 'bambang@gmail.com', '1082801209', 'close', '2019-07-24 06:44:44', '2019-07-24 05:41:48', '2019-07-24 06:44:44'),
+(16, 'pA0wV6Esi68UimHh6ed8h0vcu41N1a', 1, 2, 1, '', 'Bambang', 'bambang@gmail.com', '1082801209', 'close', '2019-07-24 06:59:25', '2019-07-24 06:45:54', '2019-07-24 06:59:25'),
+(17, 'pA0wV6Esi68UimHh6ed8h0vcu41N1a', 1, 2, 2, '', 'Bambang', 'bambang@gmail.com', '1082801209', 'close', '2019-07-24 07:13:06', '2019-07-24 07:01:53', '2019-07-24 07:13:06'),
+(18, 'pA0wV6Esi68UimHh6ed8h0vcu41N1a', 1, 3, 2, 'Gula 2 sendok', 'Bambang', 'bambang@gmail.com', '1082801209', 'close', NULL, '2019-07-24 17:04:41', '2019-07-24 17:04:41'),
+(19, 'pA0wV6Esi68UimHh6ed8h0vcu41N1a', 1, 7, 1, '', 'Bambang', 'bambang@gmail.com', '1082801209', 'close', '2019-07-24 17:24:41', '2019-07-24 17:04:41', '2019-07-24 17:24:41'),
+(20, 'pA0wV6Esi68UimHh6ed8h0vcu41N1a', 1, 4, 1, '', 'Bambang', 'bambang@gmail.com', '1082801209', 'close', NULL, '2019-07-24 19:49:06', '2019-07-24 19:49:06'),
+(21, 'sKm5I4aJe8VFgHSWDyclpHPePGKQdl', 1, 1, 1, '', 'Bejo', 'bejo@bejo.com', '12901029', 'close', '2019-07-25 19:51:24', '2019-07-25 19:22:56', '2019-07-25 19:51:24');
 
 -- --------------------------------------------------------
 
@@ -441,6 +486,12 @@ ALTER TABLE `cart`
   ADD PRIMARY KEY (`id_cart`);
 
 --
+-- Indeks untuk tabel `detail_belanja`
+--
+ALTER TABLE `detail_belanja`
+  ADD PRIMARY KEY (`id_detail_belanja`);
+
+--
 -- Indeks untuk tabel `detail_penggajian`
 --
 ALTER TABLE `detail_penggajian`
@@ -459,9 +510,9 @@ ALTER TABLE `feedback`
   ADD PRIMARY KEY (`id_feedback`);
 
 --
--- Indeks untuk tabel `kompopsisi`
+-- Indeks untuk tabel `komposisi`
 --
-ALTER TABLE `kompopsisi`
+ALTER TABLE `komposisi`
   ADD PRIMARY KEY (`id_komposisi`);
 
 --
@@ -496,6 +547,12 @@ ALTER TABLE `posisi`
   ADD PRIMARY KEY (`id_posisi`);
 
 --
+-- Indeks untuk tabel `submenu`
+--
+ALTER TABLE `submenu`
+  ADD PRIMARY KEY (`id_submenu`);
+
+--
 -- Indeks untuk tabel `transaksi`
 --
 ALTER TABLE `transaksi`
@@ -515,7 +572,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `bahan_baku`
 --
 ALTER TABLE `bahan_baku`
-  MODIFY `id_bahan_baku` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_bahan_baku` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `belanja`
@@ -527,7 +584,13 @@ ALTER TABLE `belanja`
 -- AUTO_INCREMENT untuk tabel `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id_cart` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_cart` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `detail_belanja`
+--
+ALTER TABLE `detail_belanja`
+  MODIFY `id_detail_belanja` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `detail_penggajian`
@@ -548,10 +611,10 @@ ALTER TABLE `feedback`
   MODIFY `id_feedback` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT untuk tabel `kompopsisi`
+-- AUTO_INCREMENT untuk tabel `komposisi`
 --
-ALTER TABLE `kompopsisi`
-  MODIFY `id_komposisi` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `komposisi`
+  MODIFY `id_komposisi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `meja`
@@ -563,19 +626,19 @@ ALTER TABLE `meja`
 -- AUTO_INCREMENT untuk tabel `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT untuk tabel `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `id_payment` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_payment` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT untuk tabel `pengeluaran`
 --
 ALTER TABLE `pengeluaran`
-  MODIFY `id_pengeluaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_pengeluaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `posisi`
@@ -584,10 +647,16 @@ ALTER TABLE `posisi`
   MODIFY `id_posisi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT untuk tabel `submenu`
+--
+ALTER TABLE `submenu`
+  MODIFY `id_submenu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT untuk tabel `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`

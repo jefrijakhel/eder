@@ -15,7 +15,26 @@
             } );
             
     </script>
-        
+        <?php
+        if(!isset($label)){$label = '';}
+        if(!isset($labelpendapatan)){$labelpendapatan = '';}
+        if(!isset($labelpengeluaran)){$labelpengeluaran = '';}
+        if(!isset($labelf1)){$labelf1 = '';}
+        if(!isset($labelf2)){$labelf2 = '';}
+        if(!isset($labelf3)){$labelf3 = '';}
+        if(!isset($labelmakanan)){$labelmakanan = '';}
+        if(!isset($labelminuman)){$labelminuman = '';}
+        if(!isset($dataset)){$dataset = '';}
+        if(!isset($datasetpendapatan)){$datasetpendapatan = '';}
+        if(!isset($datasetpengeluaran)){$datasetpengeluaran = '';}
+        if(!isset($datasetf1)){$datasetf1 = '';}
+        if(!isset($datasetf2)){$datasetf2 = '';}
+        if(!isset($datasetf3)){$datasetf3 = '';}
+        if(!isset($datasetmakanan)){$datasetmakanan = '';}
+        if(!isset($datasetminuman)){$datasetminuman = '';}
+        if(!isset($subma)){$subma = '';}
+        if(!isset($submi)){$submi = '';}
+        ?>
     <script>
     // Set the date we're counting down to
     
