@@ -24,9 +24,9 @@
                                     <div class="col-md-2 col-sm-2 col-4" style="padding-top:5px;padding-bottom:5px;">
                                     <?php
                                         if($menu[0]['foto'] == '' || $menu[0]['foto'] == NULL){?>
-                                        <img src="https://doktersehat.com/wp-content/uploads/2018/08/makanan-bayi-1-tahun-doktersehat.jpg" class="img-fluid" alt="">
+                                        <img src="https://doktersehat.com/wp-content/uploads/2018/08/makanan-bayi-1-tahun-doktersehat.jpg" class="img-fluid" alt="" onload="timer('demo<?=$value->id_transaksi?>','<?=$value->estimated_time?>');">
                                         <?php }else{?>
-                                            <img src="<?=$menu[0]['foto']?>" class="img-fluid" alt="">
+                                            <img src="<?=$menu[0]['foto']?>" class="img-fluid" alt="" onload="timer('demo<?=$value->id_transaksi?>','<?=$value->estimated_time?>');">
                                         <?php } ?>
                                     </div>
                                     <div class="col-md-6 col-sm-6 col-4" style="padding-top:5px;padding-bottom:5px;">
@@ -37,7 +37,7 @@
                                         <?php
                                             if($value->estimated_time != NULL && $value->status != 'close'){
                                         ?>
-                                        <div id="demo" style="font-size:16px; font-weight:bold" class="text-center"></div>
+                                        <div id="demo<?=$value->id_transaksi?>" style="font-size:16px; font-weight:bold" class="text-center" onload="timer('<?=$value->estimated_time?>')"></div>
                                         <input type="hidden" value="<?=$value->estimated_time?>" id="countdown">
                                         <?php }else if($value->estimated_time != NULL && $value->status == 'close'){ ?>
                                         <div style="font-size:16px; font-weight:bold" class="text-center">
