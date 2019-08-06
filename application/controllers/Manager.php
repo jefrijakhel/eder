@@ -286,6 +286,8 @@ class Manager extends CI_Controller {
         $data['labelminuman'] = $labelminuman;
         $data['datasetminuman'] = $datasetminuman;
         $data['penjualan'] = Transaksi::sum('qty');
+        $data['pelanggan']  = Transaksi::groupBy('transaksi_fk')->get();
+        $data['transaksi']  = Transaksi::selectRaw('*, sum(qty) as qty')->groupBy('id_menu')->get();
         $data['menu'] = Menu::count();
         $data['karyawan'] = Employee::count();
         $data['ratingmenu'] = Feedback::where('id_pertanyaan','0')->sum('nilai') / Feedback::where('id_pertanyaan','0')->count();

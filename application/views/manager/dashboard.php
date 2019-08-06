@@ -138,4 +138,54 @@
             </div>
         </div>
     </div>
+    <div class="col-md-6" style="margin-top:20px">
+        <table id="example" class="table" width="100%">
+            <thead class="thead-light">
+                <tr>
+                <th scope="col">No</th>
+                <th scope="col">Nama</th>
+                <th scope="col">Email</th>
+                <th scope="col">No HP</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php $no=1;foreach($pelanggan as $key=>$value):
+                ?>
+                <tr>
+                <th scope="row"><?=$no?></th>
+                <td><?=$value->nama_customer?></td>
+                <td><?=$value->email?></td>
+                <td><?=$value->no_hp?></td>
+                </tr>
+            <?php $no++; endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-6" style="margin-top:20px">
+        <table id="example2" class="table" width="100%">
+            <thead class="thead-light">
+                <tr>
+                <th scope="col">No</th>
+                <th scope="col">Menu</th>
+                <th scope="col">Sub Menu</th>
+                <th scope="col">Jenis Menu</th>
+                <th scope="col">Terjual</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php $no=1;foreach($transaksi as $key=>$value): 
+                $menu = Menu::where('id_menu',$value->id_menu)->get();
+                $submenu = Submenu::where('id_submenu',$menu[0]['sub_menu'])->get();
+                ?>
+                <tr>
+                <th scope="row"><?=$no?></th>
+                <td><?=$menu[0]['nama_menu']?></td>
+                <td><?=$submenu[0]['nama_submenu']?></td>
+                <td><?=$menu[0]['jenis_menu']?></td>
+                <td><?=$value->qty?></td>
+                </tr>
+            <?php $no++; endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 </div>
